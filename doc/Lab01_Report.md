@@ -9,4 +9,6 @@ Date: 01/15/2020
 
 >Q. When you open the conflicted readme, what did you get? How did you fix it?
 
+>A.  When I opened the conflicted readme, it had the changes recorded on Github segemented by >>>>>>HEAD and ======= and under ======== and <<<<<<<< is the edits that existed on my computer. I fixed it by recording one of the changes that is available from the options and deleted the >>>>>>HEAD, =======, and <<<<<<<<<
+
 
