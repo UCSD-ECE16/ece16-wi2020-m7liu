@@ -84,7 +84,7 @@ Date: 01/15/2020
 >Q. What is the average time elapsed for each second increment? Use millis() to help you with this task. Describe how you measured this.  
 
 >A. The average time elapsed for each second increment is exactly 1000ms measured using millis() that is called whenever the timer is incremented in the main tab. So when the timer is called it flags the time and prints it out to the serial monitor for reference. This differs from the average time elapsed recorded from the time stamp from the serial monitor that has an average of 1019ms. This is because the time stamp just tells what time it is during the print out to Serial Monitor while millis() rounds off the time it took to execute each line and loop so it is exactly 1000ms.
->![Challenge_2_millis()](fig/Lab1_IMAGES/Challenge_2_millis().png)
+>![Challenge_2_millis()](fig/LAB1_IMAGES/Challenge_2_millis().png)
 >Challenge_2_millis().png
 
 ### Challenge 3: Timer - Part 2
