@@ -88,3 +88,8 @@ Date: 01/15/2020
 >Challenge_2_millis().png
 
 ### Challenge 3: Timer - Part 2
+>The objective is a continuation from Timer Part 1 where now after the button is pressed the timer winds down back to 0 instead of staying in that state. So from the Timer tab write a function that as long as the timer is > 0 decrement and print out the time then wait one second. All of the code and circuitry in Part 1 is reused
+
+>Q. Describe in plain english the logic of your program. 
+
+>A. The program is broken up to several parts as the main fuction where setup and loop functions are and tabs Button, Message, and Timer. The Button has a function that sets up the pin the button is using and a boolean function that returns the value that is read from the state of said button. The Message tab has a function that sets up the Serial Monitor and a function with an integer parameter that calls Serial.print() to print out the integer parameter. The Timer has a protected integer variable timer_seconds, a function called addTimer() that increments timer_seconds then print with printTime() from Message tab, and a function runTimer() that as long timer_seconds is greater than 0 then decrement timer_seconds, then print with printTime() from Message tab and finally wait for 1000ms. In the main tab (Lab1_Challenges) necessary functions are setup, mainly Button and Message, and a function is created called Lab1_C2() that adds logic that if a button is pressed (state is LOW) then the timer is incremented through addTimer() (comparisons for millis() is also done here). Otherwise execute runTimer() that decrements the timer to 0. Finally in the void loop() function the Lab1_C2() is executed in an infinite loop or until power is no longer supplied to the Firebeetle.
