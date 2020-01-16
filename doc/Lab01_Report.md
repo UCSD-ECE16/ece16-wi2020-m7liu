@@ -46,7 +46,7 @@ Date: 01/15/2020
  
  >Q. Note the tabs shown in the figure (for Button, LED, Message, and Timer), please make these four tabs.
  
- >A. Tabs for Button, LED, Message, and Timer have been created and used in Challenge 1-3. Check in folder src/Arduino/Lab1_Challenges
+ >A. Tabs for Button, LED, Message, and Timer have been created and used in Challenge 1-3. Check in folder src/Arduino/LAB01/Lab1_Challenges
  
  ## Challenges
  
