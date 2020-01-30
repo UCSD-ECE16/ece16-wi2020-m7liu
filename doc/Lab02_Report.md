@@ -90,3 +90,21 @@ The objective is to read a bunch of characters from the Serial Monitor and print
 >Q. What happens if you write a really long message? Why?
 
 >A. If I write a really long message it starts giving me garbage characters or characters that has shown up in the same order as I typed some messages. This is because the OLED display has a limited amount of characters allowed per line and if it overflows it tries to make sense of it by overwriting the existing spaces on the same line or combine some of them to make garbage characters.
+
+### Challenge 4: Non-blocking logic
+The objective is to use non-blocking logic to check for taps and start the timer if last tap was 3 seconds a go. Extending from Challenge 2 I took the basic tap detection and added a timer=millis() that keeps track when the accelerometer is tapped. Then I compared on a running loop that if the accelerometer is not tapped for more than 3 seconds with timer-millis() then it runs the decremenation until 0.
+
+>Q. As a thought exercise, how might you implement this using BLOCKING logic? 
+
+>A. If using blocking logic I would have a variable time_block that totals tiny increment of time whenever the delay is called between the execution of a loop. Then there is a global variable that time_mark that marks down the time of the last tap inside of the check if tapped and then I would time_block - time_mark>=3000 to execute the same logic in checking if the accelerometer was tapped 3 seconds ago
+
+>Q. How would you use NON-BLOCKING logic to set the sampling rate of the accelerometer to 50Hz? Write a pseudo code. 
+
+>A. To do this I would go inside Gesture under detectTap() and modify the logic around reading the ADC, readADC(). I would write:
+timer=millis();
+if(elapsed time >= 2ms){ //elapsed time = timer-millis()
+    readADC();
+}
+This ensures that the detection only reads at 50Hz=1/t; t=2ms. So reading at 50Hz means sampling per 2ms interval
+
+
