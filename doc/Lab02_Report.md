@@ -60,4 +60,20 @@ The objective is to wire a fading buzzer with PWM frequencies. I wrote the Ardui
 >A. digitalWrite only has two states High or Low. It doesn't allow for a great variation of buzz power that can be done with Pulse Width Modulation in ledcWrite.
 
 ### Challenge 3: Gesture Detection
+The objective is to create an algorithm with the accelerometer and OLED to detect tapping on the accelerometer. I wrote the code based on the fact that the device is placed on a flat surface, so the only effect is the Z axis.  Then I return the that is tapped to the OLED display that displays the occurance.
 
+>Q. What are some different logics you tried and why? What are some situations where you noticed your detection algorithm doesn’t work well?
+
+>A. I tried using a tapTimer that accounts for the time that the finger or whatever is tapping with the accelerometer in order to get a single notice of tapping for one tap instead of multiple due to the fast refresh rate of the data collected. It worked well until for some reason in the middle it stopped working so I took it out since it wasn't necessary anymore due to the sensitivity of the accelerometer dropped significantly (I might have broke it - though it still works). Other than the additional logic my logic still rests on testing only on the Z axis. When I did the other axis I rarely get an accurate response because tapping by nature is up and down.
+
+>Q. Provide a screenshot of a plot showing 5 taps and the threshold used. 
+
+>A. 
+>![Challenge02_5Taps](fig/LAB02_IMAGES/Challenge02_5Taps)
+>Challenge02_5Taps
+
+>Q. Include a video of you tapping on the accelerometer and the OLED counting each time. 
+
+>A.
+>![Challenge02_5Taps.gif](fig/LAB02_GIFS/Challenge02_5Taps.gif)
+>Challenge02_5Taps.gif
