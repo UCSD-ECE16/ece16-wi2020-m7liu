@@ -59,7 +59,7 @@ The objective is to wire a fading buzzer with PWM frequencies. I wrote the Ardui
 
 >A. digitalWrite only has two states High or Low. It doesn't allow for a great variation of buzz power that can be done with Pulse Width Modulation in ledcWrite.
 
-### Challenge 3: Gesture Detection
+### Challenge 2: Gesture Detection
 The objective is to create an algorithm with the accelerometer and OLED to detect tapping on the accelerometer. I wrote the code based on the fact that the device is placed on a flat surface, so the only effect is the Z axis.  Then I return the that is tapped to the OLED display that displays the occurance.
 
 >Q. What are some different logics you tried and why? What are some situations where you noticed your detection algorithm doesn’t work well?
@@ -77,3 +77,16 @@ The objective is to create an algorithm with the accelerometer and OLED to detec
 >A.
 >![Challenge02_5Taps.gif](fig/LAB02_GIFS/Challenge02_5Taps.gif)
 >Challenge02_5Taps.gif
+
+### Challenge 3: Read and Write to OLED
+The objective is to read a bunch of characters from the Serial Monitor and print it out to the OLED display. Extending from the previous OLED from the last Challenge and the Serial_Print in the tutorial. I allowed the Serial monitor to read my inputs on the input line with Serial.read() and I stored those chars in an array of chars that will output when it meets a newline character ('/n'). The output is thrown to showMessage() that displays to the OLED
+
+>Q. Video of a message typed into the serial monitor and appearing on the OLED. This video should be shot WITHOUT moving the camera. 
+
+>A.
+>![Challenge03_Message.gif](fig/LAB02_GIFS/Challenge03_Message.gif)
+>Challenge03_Message.gif
+
+>Q. What happens if you write a really long message? Why?
+
+>A. If I write a really long message it starts giving me garbage characters or characters that has shown up in the same order as I typed some messages. This is because the OLED display has a limited amount of characters allowed per line and if it overflows it tries to make sense of it by overwriting the existing spaces on the same line or combine some of them to make garbage characters.
