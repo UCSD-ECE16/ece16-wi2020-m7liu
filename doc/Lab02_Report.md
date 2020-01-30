@@ -69,7 +69,7 @@ The objective is to create an algorithm with the accelerometer and OLED to detec
 >Q. Provide a screenshot of a plot showing 5 taps and the threshold used. 
 
 >A. 
->![Challenge02_5Taps](fig/LAB02_IMAGES/Challenge02_5Taps)
+>![Challenge02_5Taps](fig/LAB02_IMAGES/Challenge02_5Taps.png)
 >Challenge02_5Taps
 
 >Q. Include a video of you tapping on the accelerometer and the OLED counting each time. 
