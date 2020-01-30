@@ -112,6 +112,11 @@ Draw and plan out the state machine of the watch (mainly the timer and the proce
 
 >Q. How many states do you need? Describe in words what each state does and it’s transition logic. Draw the state machine
 
->A. I need four states in total. There will be four states in total in the drawing: waiting for First tap, 3-second check, count to 0, and Buzz when time is 0. First tap checks when there is tapping to count up the timer and will keep going until there is no tapping then passes to 3-second check. 3-second check makes sure that there is no tapping in 3 seconds, if there is passes it back to first tap to wait for more taps. If there are no more taps in 3 seconds then it goes to counting that takes in no taps and decrement the taps until it is 0. Then it passes to the Buzz when time tap is 0 and keeps buzzing while waiting for tap. If it finds a tap then the buzz stop and the state machine reset to where it started.
+>A. I need four states in total. There will be four states in total in the drawing: waiting for First tap, 3-second check, count to 0, and Buzz when time is 0. First tap checks when there is tapping to count up the timer and will keep going until there is no tapping then passes to 3-second check. 3-second check makes sure that there is no tapping in 3 seconds, if it is not 3 seconds of no tapping then it throws it back to the first state to wait for more tapping. If there are no more taps in 3 seconds then it goes to counting that takes in no taps and decrement the taps until it is 0. Then it passes to the Buzz when time tap is 0 and keeps buzzing while waiting for tap. If it finds a tap then the buzz stop and the state machine reset to where it started.
 >![Challenge05_State_Machine](fig/LAB02_IMAGES/Challenge05_State_Machine.jpg)
 >Challenge05_State_Machine
+
+### Challenge 6: Gesture Control Watch
+Write out the code from the state machine diagram. From the four state write out in code for what is described transitions between states and methods that loop back to itself.
+>![Challenge06_Watch.gif](fig/LAB02_IMAGES/Challenge6_Watch.gif)
+>Challenge06_Watch.gif
