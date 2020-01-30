@@ -118,5 +118,5 @@ Draw and plan out the state machine of the watch (mainly the timer and the proce
 
 ### Challenge 6: Gesture Control Watch
 Write out the code from the state machine diagram. From the four state write out in code for what is described transitions between states and methods that loop back to itself.
->![Challenge06_Watch.gif](fig/LAB02_GIFS/Challenge6_Watch.gif)
+>![Challenge06_Watch.gif](fig/LAB02_GIFS/Challenge06_Watch.gif)
 >Challenge06_Watch.gif
