@@ -107,4 +107,10 @@ if(elapsed time >= 2ms){ //elapsed time = timer-millis()
 }
 This ensures that the detection only reads at 50Hz=1/t; t=2ms. So reading at 50Hz means sampling per 2ms interval
 
+### Challenge 5: State Machine of the Watch
+Draw and plan out the state machine of the watch (mainly the timer and the process that follows). There will be four states in total in the drawing: waiting for First tap, 3-second check, count to 0, and Buzz when time is 0. The state machine should go through the motions of how the timer works and ensures that there are no operations that are left out. I drew out the process for the state machines and arrows represent that actions that go from state to state. 
 
+>Q. How many states do you need? Describe in words what each state does and it’s transition logic. Draw the state machine
+
+>A. I need four states in total. There will be four states in total in the drawing: waiting for First tap, 3-second check, count to 0, and Buzz when time is 0. First tap checks when there is tapping to count up the timer and will keep going until there is no tapping then passes to 3-second check. 3-second check makes sure that there is no tapping in 3 seconds, if there is passes it back to first tap to wait for more taps. If there are no more taps in 3 seconds then it goes to counting that takes in no taps and decrement the taps until it is 0. Then it passes to the Buzz when time tap is 0 and keeps buzzing while waiting for tap. If it finds a tap then the buzz stop and the state machine reset to where it started.
+>![Challenge05_State_Machine](fig/LAB02_IMAGES/Challenge05_State_Machine.jpg)
