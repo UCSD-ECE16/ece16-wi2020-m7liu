@@ -128,6 +128,33 @@ print(e[2, 2:])>>> [3 1]
 print(e[:,2])  >>> [1 1 3]
 print(e[1,3]) >>> 2
 
-
 >A.![3X4_Tutorial_Matrix](fig/LAB03_IMAGES/3X4_Tutorial_Matrix.jpg)
 3X4_Tutorial_Matrix
+
+>Q. Show your code - Now solve the above indexing and slicing problem by writing the code using array assignment. 
+
+>A.
+```python
+    zero_array = np.zeros((3,4))
+    zero_array[0]=[12,3,12,2]
+    zero_array[1,0]=0
+    zero_array[:,1]=[3,0,2]
+    zero_array[2,:2]=[4,2]
+    zero_array[2,2:]=[3,1]
+    zero_array[:,2]=[1,1,3]
+    zero_array[1,3]=2
+    print(zero_array)
+```
+
+>Q. Using fromstring, vstack, and a for loop, create an array of 100x4 from s: [[1,2,3,4],[1,2,3,4],[1,2,3,4]…..[1,2,3,4]]. 
+
+>A. 
+```python
+    data_string = '1,2,3,4'
+    data_array = np.fromstring(data_string,dtype=int,sep=',')
+    print_array = data_array
+    for x in range(0,99):
+        print_array=np.vstack((print_array,data_array),)
+    print(print_array)
+```
+
