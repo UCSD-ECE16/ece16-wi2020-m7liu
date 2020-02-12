@@ -98,3 +98,36 @@ Output with decode: TIMER:
     print(test_vstack_array)
 ```
 
+>Q. Show the code - Using arange, make an array called arange_array1 to equal [-3, 3,9,15] and arange_array2 to equal [ -7,  -9, -11, -13, -15, -17, -19]
+
+>A. 
+```python
+    arrange_array1 = np.arange(-3,16,6)
+    print(arrange_array1)
+    arange_array2 = np.arange(-7,-20,-2)
+    print(arange_array2)
+```
+>Q. Make an array call linspace_array using linspace that goes from 0 to 100 with 49 steps. 
+
+>A.
+```python
+    linspace_array = np.linspace(0,100,49)
+    print(linspace_array)
+```
+
+>Q. How does linspace and arange differ? When might you use one over the other?
+
+>A. Arrange and linspace differ by that arange starts at one point and steps for a certain amount of spaces until it runs till the endpoint while linspace has a set desired number of values it wants and outputs evenly spaced values between the start and endpoints. arrange is used when stepping within a certain range of numbers with a set space while linspace is used when you want even spacing between numbers like taking averages.
+
+>Q. What is an array of size 3x4 that would produce the following results. Show your work on how you deduced your answer on paper or some kind of graphics :
+print(e[0])     >>> [12 3 1 2]
+print(e[1,0])  >>> 0
+print(e[:,1])   >>> [3 0 2]
+print(e[2, :2])>>> [4 2]
+print(e[2, 2:])>>> [3 1] 
+print(e[:,2])  >>> [1 1 3]
+print(e[1,3]) >>> 2
+
+
+>A.![3X4_Tutorial_Matrix](fig/LAB03_IMAGES/3X4_Tutorial_Matrix.jpg)
+3X4_Tutorial_Matrix
