@@ -194,4 +194,31 @@ ValueError: all the input array dimensions for the concatenation axis must match
 >A. By removing the 1 second delay on the MCU does not affect the performance of the Python execution (don't know if I'm lucky or what I tried it many times, even with no delay on any of the MCU code). However a case that might happen is that the Python Serial cannot catch the port in time and will throw errors that it is reading a non valid byte (that is a legit guess).
 
 ### Challenge 3: Calculate the Sampling Rate
+The objective is to calculate the sampling rate through Python by taking the difference of all of the numbers and find the mean. This is done through the communication between the Serial port and the Python port.
+
+>I gave up on this Challenge and Part 2. Some reason my OLED stopped working midway through plotting the points even if I tried to restart my computer. Also the sampling rate I was returning are always of +e4 so I cannot get accurate data. For some reason the first 5 numbers puts the difference at a reasonable number around 1000 to 10000, depending on baud rate and sampling_rate. However past the 6th sample, the time difference jumped in degrees of ±e2 and increase by a factor of +e after. As a result the following answers are my estimation.
+
+>Q. Start with Baud rate of 115200. What is your calculated sampling rate when you set the sampling rate to 10Hz,50Hz,100Hz,1000Hz on the MCU. Make a plot (using a spreadsheet program) of the actual sampling rate (y-axis) vs expected sampling rate (x-axis).
+
+>A. The calculated sampling rate compared to the set sampling rate might have a decreasing curve since at the higher Hz, the MCU must faster so it will have a smaller time difference between sampling time and the mean will be closer to 0.
+
+>Q. How does this change with Baud rate 9600 vs 115200 vs 230400 vs 460800. For 1000Hz, make a plot of the actual sampling rate (y-axis) vs Baud Rate (x-axis).
+
+>A. An increase in Baud rate means that the frequency that bytes are sent increases significantly, while the given sampling rate actually remains the same. By increasing the Baud rate the sampling rate might be a upside down curve that approaches the given sampling rate since there is a faster communication between the devices that approach the ideal.
+
+>Q. What happens if you use millis instead of micros for timing and Why?
+
+>A. If millis is used instead of micros there will be no output. The computer just hangs, most of the time it just crashes, a few times my computer froze entirely. Note: This was tested not assumed but I don't think it is the expected answer. I think what was suppose to happen was no difference since all values to time are correspondingly changed but the sampling rate still remained at a certain Hz.
+
+### Challenge 4
+The objective is to connect the Bluetooth port from the Arduino to the computer so there is an open line of communication between the Arduino and computer even when unplugged. This is done by setting up the Bluetooth on the Arduino but uploading the Python code via that connection when unplugged. 
+
+>Q. In a video, show the MCU unplugged from USB and powered by the battery. Use the Python code to request the device to send a chunk of data and calculate the sampling rate. 
+
+>A. Trust me Bluetooth works but OLED is fried (not physically) but a connection exists, it was done during class. Also battery is not working, don't know how to get it to work I charged it before hand by leaving Arduino connected to the computer and battery connected to Arduino.  ¯\_(ツ)_/¯
+
+![Close_Enough](fig/LAB03_IMAGES/Close_Enough.jpg)
+![I_tried](fig/LAB03_IMAGES/I_tried.jpg)
+![Penguin](fig/LAB03_GIFS/Penguin.gif)
+
 
