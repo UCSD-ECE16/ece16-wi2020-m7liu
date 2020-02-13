@@ -11,10 +11,10 @@ void Lab1_C2(){
       //add one second to the timer
       Serial.println("TIMER:");
       timer = millis();
-      Serial.println(timer);
+      //Serial.println(timer);
       addTimer();
       //wait one second
-      delay(1000);
+      delay(100);
   }
   else{
     runTimer();
