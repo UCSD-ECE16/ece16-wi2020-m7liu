@@ -157,4 +157,10 @@ print(e[1,3]) >>> 2
         print_array=np.vstack((print_array,data_array),)
     print(print_array)
 ```
+## Challenges
+
+### Challenge 1: Setting Your Watch to Send Data
+The objective is to reuse the Lab02 Message function that receives input from the serial monitor and outputs it to the OLED to check a certain type of input and if it matches the desired input then it outputs the sampled data at 50Hz. This is done by reusing the Message function and insert a portion that checks when the message from the Serial input matches the trigger string which is "start data" or "stop data"
+
+### Challenge 2: Reading Accelerometer Data
 
