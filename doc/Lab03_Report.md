@@ -163,4 +163,35 @@ print(e[1,3]) >>> 2
 The objective is to reuse the Lab02 Message function that receives input from the serial monitor and outputs it to the OLED to check a certain type of input and if it matches the desired input then it outputs the sampled data at 50Hz. This is done by reusing the Message function and insert a portion that checks when the message from the Serial input matches the trigger string which is "start data" or "stop data"
 
 ### Challenge 2: Reading Accelerometer Data
+The objective is to read the accelerometer from Lab02 through Python while using the serial port from Arduino IDE. This is done by receiving the data from the serial port through Python's access to the serial port. It receives the sample and data from the serial port and decode it to usable data that outputs to the Python console.
+
+>Q. What happens if you don’t decode the incoming char?
+
+>A. If the incoming char is not decoded then the code skips the entire meaningful execution because it does not receive anything that is equal to '\n' since all the incoming data is in the from of b, ' ' 
+
+>Q. Try removing the logic for checking if the data_array is empty and always vstack even if the data_array is empty. What is the error that gets thrown? Why?
+
+>A. If the logic for checking the size of data_array is removed then the error thrown is that it cannot vstack() an array of size 0 to size 1 because vstack() only allows stacking arrays of equal sizes. If it is not an error is thrown.
+```python
+runfile('/Users/mikeliu/Desktop/Spyder Python/LAB03_C1_Test.py', wdir='/Users/mikeliu/Desktop/Spyder Python')
+1000,1234,1234,1234
+Traceback (most recent call last):
+
+  File "/Users/mikeliu/Desktop/Spyder Python/LAB03_C1_Test.py", line 29, in <module>
+    data_array = np.vstack((data_array,temp_data_array)) #vstack temp_data_array to end of data_array
+
+  File "<__array_function__ internals>", line 6, in vstack
+
+  File "/Users/mikeliu/opt/anaconda3/lib/python3.7/site-packages/numpy/core/shape_base.py", line 283, in vstack
+    return _nx.concatenate(arrs, 0)
+
+  File "<__array_function__ internals>", line 6, in concatenate
+
+ValueError: all the input array dimensions for the concatenation axis must match exactly, but along dimension 1, the array at index 0 has size 0 and the array at index 1 has size 1
+```
+>Q. Try removing the 1 second delay on the MCU when starting data sending. Describe what happens?
+
+>A. By removing the 1 second delay on the MCU does not affect the performance of the Python execution (don't know if I'm lucky or what I tried it many times, even with no delay on any of the MCU code). However a case that might happen is that the Python Serial cannot catch the port in time and will throw errors that it is reading a non valid byte (that is a legit guess).
+
+### Challenge 3: Calculate the Sampling Rate
 
