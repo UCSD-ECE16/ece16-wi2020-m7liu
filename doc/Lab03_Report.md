@@ -215,7 +215,7 @@ The objective is to connect the Bluetooth port from the Arduino to the computer 
 
 >Q. In a video, show the MCU unplugged from USB and powered by the battery. Use the Python code to request the device to send a chunk of data and calculate the sampling rate. 
 
->A. Trust me Bluetooth works but OLED is fried (not physically) but a connection exists, it was done during class. Also battery is not working, don't know how to get it to work I charged it before hand by leaving Arduino connected to the computer and battery connected to Arduino.  ¯\_(ツ)_/¯
+>A. Trust me Bluetooth works but OLED is fried (not physically) but a connection exists, it was done during class. Also battery is not working, don't know how to get it to work I charged it before hand by leaving Arduino connected to the computer and battery connected to Arduino.  ¯'\_(ツ)_/¯
 
 ![Close_Enough](fig/LAB03_IMAGES/Close_Enough.jpg)
 ![I_tried](fig/LAB03_IMAGES/I_tried.jpeg)
