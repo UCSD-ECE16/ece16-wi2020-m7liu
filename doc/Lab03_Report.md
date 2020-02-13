@@ -218,7 +218,7 @@ The objective is to connect the Bluetooth port from the Arduino to the computer 
 >A. Trust me Bluetooth works but OLED is fried (not physically) but a connection exists, it was done during class. Also battery is not working, don't know how to get it to work I charged it before hand by leaving Arduino connected to the computer and battery connected to Arduino.  ¯\_(ツ)_/¯
 
 ![Close_Enough](fig/LAB03_IMAGES/Close_Enough.jpg)
-![I_tried](fig/LAB03_IMAGES/I_tried.jpg)
+![I_tried](fig/LAB03_IMAGES/I_tried.jpeg)
 ![Penguin](fig/LAB03_GIFS/Penguin.gif)
 
 
