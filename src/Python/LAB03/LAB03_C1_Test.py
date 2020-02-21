@@ -16,12 +16,12 @@ a=0
 for incoming_byte in incoming_stream:
     c = incoming_byte.decode('utf-8') #this takes the place of reading the byte from serial
     if(c=='\n'): # c is '\n'
-        str = ""
-        data_string = str.join(string_buffer) #JOIN buffer 
+
+        data_string = "".join(string_buffer) #JOIN buffer 
         print(data_string)
 
         temp_data_array = np.array(data_string)#csv string to 1x4 np array
-        if(False):#data_array.size==0): #data_array is empty
+        if(data_array.size==0):#data_array.size==0): #data_array is empty
             data_array = temp_data_array
             
         else:

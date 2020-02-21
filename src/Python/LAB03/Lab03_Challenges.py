@@ -17,7 +17,7 @@ graph_array = np.array([])
 sample_number=0
 
 def setup_serial():
-    serial_name = '/dev/cu.usbserial-14410'
+    serial_name = '/dev/cu.usbserial-14140'
     ser = serial.Serial(serial_name, 9600)  # open serial port
     print(ser.name)         # check which port was really used
     return ser
@@ -25,9 +25,10 @@ def setup_serial():
 
 def receive_data(ser):
     # Send start data
-    start = "start data\n"
-    stop = "stop data\n"
+    start = "Start Data\n"
+    stop = "Stop Data\n"
     ser.write(start.encode('utf-8'))
+    
     while sample_number<100:
         try:
             receive_sample(ser)

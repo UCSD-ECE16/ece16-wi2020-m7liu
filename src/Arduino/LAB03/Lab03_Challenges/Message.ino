@@ -11,9 +11,9 @@ bool sending_data = false; //to send data?
 void sendData(){
     if(sending_data){
       //current_time=micros();
-        if(millis()-last_sample_time>=calcSamplingDelay(sampling_rate)){ //use non-blocking timing
+        if(micros()-last_sample_time>=calcSamplingDelay(sampling_rate)){ //use non-blocking timing
             //update last_sample_time with current micros()
-            last_sample_time = millis();  
+            last_sample_time = micros();  
             //read all ADC values
             readADC();
             //Serial print last_sample_time,x_val,y_val,z_val\n
@@ -36,7 +36,7 @@ void sendData(){
 }
 
 long calcSamplingDelay(long sampling_rate){
-    return (100000000.0/sampling_rate); //number of microseconds to wait between samples
+    return (1000000.0/sampling_rate); //number of microseconds to wait between samples
 }
 
 void checkMessage(){

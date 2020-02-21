@@ -7,7 +7,7 @@ int tap_timer=0; //timer in seconds, go up when tapped, down when left for over 
 char message_buffer[4];
 
 void setup(){
-  Serial.begin(9600);
+  Serial.begin(115200);
   initDisplay();
   setupMotor();
   setupADC();
