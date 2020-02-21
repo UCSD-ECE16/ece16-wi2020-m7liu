@@ -16,7 +16,7 @@ Prepared by Mike Liu
 
 >Q. What are the units of the pulse width? Would the bigger the pulseWidth result in a more intense or less intense measurement? Why?
 
->A. Unit of the pulse width is bytes since the time elapsed does not match up to seconds instead it accumulates the bytes it has communicated. The bigger pulse width results in a less inense measurement because the data is more spread out instead.
+>A. According to the data sheet the unit of the pulse width is microseconds. The bigger pulse width results in a more inense measurement because the LED is brighter to it takes in more measurements since the light is on more.
 
 >Q. How many bits are needed for an ADC range of 16384?
 
@@ -33,5 +33,9 @@ Prepared by Mike Liu
 >Q. What was plotted? What does this tell you about how plt.plot interprets the input? 
 
 >A. Four different lines are plotted with the first array as the x and second as a y, then it uses it to plot a slope. That means for plt.plot inteprets the 2D np.array as sets of slopes.
+
+>Q. Try different n_avg and document, with plots, the result for a few different n_avg and describe which n_avg worked well in emphasizing the taps? 
+
+>A. The result from 10, 100, 1000, and 10000 the n_avg that worked well emphasizing the taps is when the moving average is large but not extremely large. (guess)
 
 
