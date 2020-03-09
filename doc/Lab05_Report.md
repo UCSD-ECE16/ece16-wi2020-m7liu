@@ -56,4 +56,15 @@ print(pmax)
 >![Dominant_z](fig/LAB05_IMAGES/Dominant_z.png)
 >z
 
+## Challenges
+
+### Challenge 1
+Write the code to filter the response from Appendex A through signal.butter() in order to filter a low pass signal from Scipy
+>Q. Looking at the documentation for signal.butter, how would you make a high pass filter with a cut off of 0.8Hz? Of the previous time based filters in Lab 4, which filter is most like the high pass filter?
+
+>A.  To make a high pass filter with a cutoff at 0.8Hz use signal.butter(3, 0.0032,'highpass') where 0.0032 is the half-cycles/sample of Nyquist sampling while still using 3rd order. Of the previous time based filters the detrending the moving average looks most like a high pass filter but it has a less of a curve there.
+
+### Challenge 2
+
+
 
