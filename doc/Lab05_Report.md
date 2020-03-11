@@ -65,6 +65,14 @@ Write the code to filter the response from Appendex A through signal.butter() in
 >A.  To make a high pass filter with a cutoff at 0.8Hz use signal.butter(3, 0.0032,'highpass') where 0.0032 is the half-cycles/sample of Nyquist sampling while still using 3rd order. Of the previous time based filters the detrending the moving average looks most like a high pass filter but it has a less of a curve there.
 
 ### Challenge 2
+From the data collected from Lab04 or record 10 new plots of heart beat data plot the PSD and PPG of each heart signal with a 10X2 grid plots. Plots on the left side should be PPG-time and right PSD-frequency.
 
+>Q. How does the dominant frequency change with regards to the heart rate?
+
+>A. Generally as the heart rate increases the dominant frequency also increases according, except the 77 bpm one. Might just be bad data judging from the PPG-time graph
+
+>Q. If the heart rate is 65BPM, what is approximately the fundamental frequency? What about the second and third harmonic? Why is it that even though the heart rate is 65BPM, there are higher frequency content than just the fundamental frequency? What does this imply about how you should be setting your sampling rate if you expect a heart rate maximum of 180BPM?
+
+>A. The fundamental frequency of 65BPM is 1.0833Hz (65/60). The second and third harmonics are 1.0833*2=2.166Hz and 1.0833*2=3.25Hz respectively. Higher frequency content above the fundamental frequency is just the nature of harmonic frequency. Imagine a string that is allowed to vibrate, the lowest speed that it is allowed to oscillate is the fundamental frequency. However with the same string we can vibrate it faster in terms of n*FF Hz that the wave generated from the string has n-1 nodes of the FF. These are the fundamental frequencies based off a single string that it is possible to have higher frequencies higher than the FF as long as there are n-1 sinusodial wave nodes so it results in a n*FF frequency. So if we want the suggested sampling rate of 180BPM we should set it to 180/60 = 16Hz*2 = 32Hz as the Nyquist frequency. However we should have it four times in practice so the max is 72Hz. With sampling frequency at 50Hz.
 
 
