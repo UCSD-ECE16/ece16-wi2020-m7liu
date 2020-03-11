@@ -90,6 +90,8 @@ High Freqency readings: it is difficult to read at high frequencies at some reas
 >A. Of the two the lowest error is the frequency domain with time with the least bias. This may be because when frequency records the wrong beat it gets it really wrong as it records the most prominant beat first and sticks with it while time averages out as it progresses. I don't think I seen signs of mean tracking in either algorithms since both sets of data tend to deviate away from the line of fit while frequency tends to undershoot the expected data while time fits around the line of R. That said, I have really bad data either way. Behold the edited verison:
 >![hTime](fig/LAB05_IMAGES/hTime.png)
 Time based
+
+
 >![hFreq](fig/LAB05_IMAGES/hFreq.png)
 Frequency based
 
