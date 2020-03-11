@@ -75,4 +75,24 @@ From the data collected from Lab04 or record 10 new plots of heart beat data plo
 
 >A. The fundamental frequency of 65BPM is 1.0833Hz (65/60). The second and third harmonics are 1.0833*2=2.166Hz and 1.0833*2=3.25Hz respectively. Higher frequency content above the fundamental frequency is just the nature of harmonic frequency. Imagine a string that is allowed to vibrate, the lowest speed that it is allowed to oscillate is the fundamental frequency. However with the same string we can vibrate it faster in terms of n*FF Hz that the wave generated from the string has n-1 nodes of the FF. These are the fundamental frequencies based off a single string that it is possible to have higher frequencies higher than the FF as long as there are n-1 sinusodial wave nodes so it results in a n*FF frequency. So if we want the suggested sampling rate of 180BPM we should set it to 180/60 = 16Hz*2 = 32Hz as the Nyquist frequency. However we should have it four times in practice so the max is 72Hz. With sampling frequency at 50Hz.
 
+### Challenge 3
+Add a new function in HR class, calc_heart_rate_freq, where you feed in a one dimensional np array and the sampling rate as fs. Analyze the performance of your system using Correlation Plot and Bland-Altman Plot. Do this for both the time domain algorithm and also for the frequency domain algorithm. 
+
+>Q. What are some failure modes of your frequency domain solution?
+
+>A. Some failure modes are:
+Inconsistent readings: it affects how well the heart beat is detected so if different force is applied to each instance of the reading a lot of noise and poor data results. For example it could be adjusting your hand or finger on the sensor or applying a different force on the sensor to adjust readings
+
+High Freqency readings: it is difficult to read at high frequencies at some reason even though it should be more detailed the result tend to more garbled than usual. Especially for high heart rates that it spikes fit to R almost = 1. Best I got was using the 0.2 with the smallest R.
+
+>Q. Compare and contrast the two different algorithms. Which has a lower error? Which has a bias closer to 0? Do you see any signs of mean tracking in either algorithm? Use the correlation and difference plots to support your argument.
+
+>A. Of the two the lowest error is the frequency domain with time with the least bias. This may be because when frequency records the wrong beat it gets it really wrong as it records the most prominant beat first and sticks with it while time averages out as it progresses. I don't think I seen signs of mean tracking in either algorithms since both sets of data tend to deviate away from the line of fit while frequency tends to undershoot the expected data while time fits around the line of R. That said, I have really bad data either way. Behold the edited verison:
+>![hTime](fig/LAB05_IMAGES/hTime.png)
+Time based
+>![hFreq](fig/LAB05_IMAGES/hFreq.png)
+Frequency based
+
+
+
 
