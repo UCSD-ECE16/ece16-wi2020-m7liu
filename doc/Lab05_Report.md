@@ -461,6 +461,8 @@ ALL FILES OPENED AND ACCESSED
 ### Challenge 5 & Challenge 6
 Using the Gaussian model in class take the histogram and let the program divide it into two parts and train it through the threshold based from sklearn.mixture import GaussianMixture as GMM. The point is train the model to get it as close to the algorithm made from the Lab04 time domain (or just look really nice and sensible). Then from the trained data take out the actual heart rate and compare to each reference heart rate from each file and improve the algorithm based on those response.
 
+>Heart_Rate_Histogram_Gaussian
+>![Heart_Rate_Histogram_Gaussian](fig/LAB05_IMAGES/Heart_Rate_Histogram_Gaussian.png)
 >Q. What is the difference between leave-one-out validation and leave-one-subject-out validation? Which are we doing and why is this important, and why would it be an issue if we used the other validation method given what we are building? 
 
 >A. The difference between leave-one-out validation and leave-one-subject out validation is leave-one-out takes a random data (15% of total) and do operations on the rest of them then assuming that there is no individual difference between each piece of data. Leave-one-subject out validation assumes that there is individual difference between data so that if there are data points that are especially characteristic of a subject then it would not be trained on the ML. Otherwise the ML will catch that small pattern and result it learning the wrong type of pattern recognition instead of a general model.
