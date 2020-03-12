@@ -172,6 +172,292 @@ Time based
 >![hFreq](fig/LAB05_IMAGES/hFreq.png)
 Frequency based
 
+### Challenge 4
+Split data so it is organized like how it is said in said in class (by subject) split files into training and testing based on ratio discussed in class 9:1. Then read training and store into usable lists
+
+>Q. According to the lecture, what is the recommended split between training and testing on a small dataset? 
+
+>A. According to the lecture the recommended split between training and testing is 17:3 or 85% : 15% respectively. If it is with a training, validation, and testing set then it is 17:3:3 or 70% : 15% : 15%
+
+>Q. Why is it important to split on subjects and not to treat each file as an independent sample?
+
+>A. It is important to split on subjects and not to treat each file as an indpenedent sample because heart beats are a characteristic that differs from person to person. One may have a behavior that is especially prominant in one person while not in another. By splitting by subject by individuals it insures that the sample is not over trained to a person with a specific type of pattern. The goal of Machine Learning is to get the most general approximation on a set so using a person with a very specifc patter does not help in generating a general approximation.
+
+>Note: Whoever had 05 for ID had bad data and 01 had 2 duplicates so I took the liberty of taking it out of the training files
+>The following is the used code:
+```Python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Mar  3 10:43:40 2020
+
+@author: mikeliu
+"""
+import glob
+import numpy as np
+from scipy.stats import pearsonr
+import matplotlib.pyplot as plt
+from scipy import signal
+from scipy import signal as sig
+import os
+
+def calc_heart_rate_freq(signal,fs):
+   b,a = sig.butter(3, .2, btype='low')
+   signal = sig.detrend(signal)
+   signal = sig.lfilter(b,a,signal)
+   Pxx, Freqs = plt.psd(signal, NFFT=len(signal), Fs=fs)
+   slice_from = 3
+   peaks, _ = sig.find_peaks(Pxx[slice_from:], distance=20)
+   heart_freq = Freqs[slice_from:][peaks[0]]
+   return heart_freq * 60
+
+
+
+def calc_heart_rate_time(s,fs):
+    s_diff = signal_diff(-s) #preprocess the signal, I chose to use diff
+    norm_s_diff = normalize_signal(s_diff) #normalize the signal
+    threshold = 0.7 #empirically determined to be a good threshold
+    s_thresh = [int(val > threshold) for val in norm_s_diff] #threshold the normalized signal. convert to int from boolean in order to perform logic of up or down transition
+    s_thresh_up = signal_diff(s_thresh) > 0 #check for up transition (start of heart beat)
+    BPM = np.sum(s_thresh_up)/((len(s_thresh_up)+1)/fs/60) #count the number of heart beats and divide by the total time. Total time is calculated as the length of the measurement (samples) / fs (samples/s) / 60 (min/s). This gives us beats/min
+    return BPM
+
+def normalize_signal(s):
+    norm_signal = (s - np.min(s))/(np.max(s)-np.min(s))
+    return norm_signal
+
+
+def moving_average(s,n_avg):
+    ma = np.zeros(s.size)
+    for i in np.arange(0,len(s)):
+        ma[i] = np.mean(s[i:i+n_avg])
+    return ma
+
+def signal_diff(s):
+    s_diff = np.diff(s,1,0)
+    s_diff = np.append(s_diff, 0) #np.diff returns one shorter, so need to add a 0
+    return s_diff
+
+def detrend(s, n_avg):
+    ma = np.zeros(s.size)
+    for i in np.arange(0, len(s)):
+        ma[i] = np.mean( s[i:(i + n_avg)] )    
+    return s - ma
+
+
+file_directory = "/Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/*.csv"
+directory = "/Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data"
+allfiles = glob.glob(file_directory)
+#unique = list(set([file.split("\\")[1][0:2] for file in set(allfiles)]))
+unique_ids = list(set(file.split("\\")[0][86:88] for file in set(allfiles) ))
+#print(directory)
+#print(unique_ids)
+
+list_data = np.array([])
+list_sub = np.array([])
+list_ref = np.array([])
+list_time = np.array([])
+#sub_id in the list of unique_ids
+
+j=0
+k=0
+total_files=0
+for sub_id in unique_ids:
+    #using glob get the files of all files with this subject id
+    sub_files = glob.glob(directory + "//" + sub_id + "_*_*.csv")
+    k+=1
+    #print(sub_files)
+    filter_order = 3
+    filter_cutoff = 0.2
+    #print(i)
+    print("Acessing File of ID: " + sub_id)
+    i=0
+    for sub_file in sub_files:
+        print("Accessing File: " + str(sub_file))
+        
+        data_array = np.genfromtxt(sub_file, delimiter = ',')
+        heart_rate_data = data_array[:,4]
+        t = data_array[:,0]
+        #print(np.arange(0, len(heart_rate_data)))
+        #print(len(heart_rate_data))
+        heart_rate_data = detrend(heart_rate_data, 4)
+        
+        b,a = signal.butter(filter_order, filter_cutoff, btype='low')
+        heart_rate_data = signal.lfilter(b,a,heart_rate_data)
+        
+        #shove things into list_data but not too much or it goes bonkers
+        #if list_data[j].size > 500:
+            #list_data[j]=list_data[j]
+        if list_data.size > 0:
+            list_data = np.vstack((list_data, heart_rate_data[:500]))
+        else:
+            list_data = heart_rate_data[:500]
+        list_sub = np.append(list_sub, int(sub_id))
+        heartrate_ref_string = sub_file.split("_")
+        heartrate_ref = int(heartrate_ref_string[len(heartrate_ref_string) - 1].split(".")[0])
+
+        list_ref = np.append(list_ref, heartrate_ref)
+        for l in range (0, 500): 
+            j+=2000
+            list_time=np.append(list_time,j)
+        i+=1
+    print("sub_id: " +sub_id + " has " + str(i) + " Files recorded")
+    total_files+=i
+        #each file in the list of files for this subject
+        #data = #read the csv
+        #hr_data = #get the ppg signal from data using slicing
+        #preprocess your hr_data:removing baseline, smooth your signal using a low pass filter and normalize. 
+        #append the preprocessed data to list_data
+        #append the subject id to list_sub
+        #retrieve the reference heart rate from the filename.
+        #append the reference heart rate to list_ref
+print("Total Files Accessed: " + str(len(list_data)))
+print("Total sub_id: " + str(k))
+print("Total Files Opened: " + str(total_files))
+if total_files==10*len(unique_ids):
+    print("ALL FILES OPENED AND ACCESSED")
+else:
+    print("SOME FILES NOT ACCESSED")
+a = list_data.flatten()
+plt.plot(list_time, a)
+
+
+
+    
+#print(file.split("\\")[1][0:2] for file in set(allfiles) )
+
+```
+>Output of plot
+>![Merged_Beats](fig/LAB05_IMAGES/Merged_Beats.png)
+
+>Output of terminal
+```
+runfile('/Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/ML.py', wdir='/Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05')
+Acessing File of ID: 02
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/02_10_085.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/02_09_085.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/02_02_082.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/02_06_090.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/02_03_074.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/02_07_087.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/02_01_071.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/02_04_080.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/02_05_080.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/02_08_077.csv
+sub_id: 02 has 10 Files recorded
+Acessing File of ID: 04
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/04_10_62.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/04_02_64.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/04_06_67.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/04_04_66.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/04_08_73.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/04_01_65.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/04_03_65.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/04_09_75.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/04_07_71.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/04_05_66.csv
+sub_id: 04 has 10 Files recorded
+Acessing File of ID: 11
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/11_06_067.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/11_03_092.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/11_07_070.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/11_04_066.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/11_10_090.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/11_05_085.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/11_08_067.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/11_01_071.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/11_09_065.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/11_02_104.csv
+sub_id: 11 has 10 Files recorded
+Acessing File of ID: 06
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/06_06_078.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/06_02_073.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/06_03_071.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/06_09_075.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/06_01_074.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/06_08_079.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/06_10_069.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/06_04_071.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/06_05_074.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/06_07_076.csv
+sub_id: 06 has 10 Files recorded
+Acessing File of ID: 07
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/07_05_060.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/07_04_062.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/07_10_069.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/07_07_111.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/07_02_062.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/07_03_058.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/07_06_086.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/07_08_061.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/07_09_089.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/07_01_059.csv
+sub_id: 07 has 10 Files recorded
+Acessing File of ID: 01
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/01_03_071.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/01_06_080.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/01_07_084.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/01_02_071.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/01_09_090.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/01_01_068.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/01_04_071.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/01_08_090.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/01_10_097.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/01_05_071.csv
+sub_id: 01 has 10 Files recorded
+Acessing File of ID: 03
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/03_03_070.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/03_06_122.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/03_08_102.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/03_09_101.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/03_10_102.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/03_04_073.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/03_05_075.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/03_01_079.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/03_07_102.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/03_02_079.csv
+sub_id: 03 has 10 Files recorded
+Acessing File of ID: 08
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/08_04_77.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/08_07_85.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/08_08_087.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/08_05_78.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/08_09_89.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/08_10_102.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/08_03_76.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/08_02_075.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/08_01_74.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/08_06_80.csv
+sub_id: 08 has 10 Files recorded
+Acessing File of ID: 10
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/10_04_086.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/10_05_095.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/10_10_075.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/10_03_110.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/10_06_077.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/10_07_105.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/10_02_096.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/10_09_091.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/10_08_083.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/10_01_085.csv
+sub_id: 10 has 10 Files recorded
+Acessing File of ID: 12
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/12_07_096.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/12_01_077.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/12_10_106.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/12_04_084.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/12_05_085.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/12_09_133.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/12_08_085.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/12_03_092.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/12_02_078.csv
+Accessing File: /Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/12_06_112.csv
+sub_id: 12 has 10 Files recorded
+Total Files Accessed: 100
+Total sub_id: 10
+Total Files Opened: 100
+ALL FILES OPENED AND ACCESSED
+```
 
 
 
