@@ -2,6 +2,8 @@
 Prepared by Mike Liu
 03/09/2020
 
+## Tutorial Part 1
+
 >Q. If your sampling rate was 120Hz, what would be your maximum frequency (the Nyquist frequency)?
 
 >A. If the sampling rate was 120Hz the maxiumum frequency is 60Hz because the Nyquist frequency is half of hte sampling rate.
@@ -56,6 +58,81 @@ print(pmax)
 >![Dominant_z](fig/LAB05_IMAGES/Dominant_z.png)
 >z
 
+## Tutorial Part 2
+
+>Q. what is the correct regex to get trial “0” for any subject given our naming convention “ID_Trial_HR.csv”. 
+
+>A.
+```Python
+allfiles = glob.glob(directory + "/*01*.csv")
+print(allfiles)
+```
+>Q. Manipulating File Names
+
+>A. I borrowed the test code from Owen so test cases look similar. 
+```Python
+import glob
+import numpy as np
+from scipy.stats import pearsonr
+import matplotlib.pyplot as plt
+from scipy import signal
+from scipy import signal as sig
+import os
+
+
+
+
+directory = "/Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/*.csv"
+allfiles = glob.glob(directory)
+#unique = list(set([file.split("\\")[1][0:2] for file in set(allfiles)]))
+single = list(set(file.split("\\")[0][86:88] for file in set(allfiles) ))
+print(single)
+
+failed_test = False
+print("Numbers of Test")
+for i in range(1, 13):
+    test_condition = "{:02d}".format(i)
+    
+    test_result = test_condition in single
+    print("Has " + str(test_condition) + "? " + str(test_result))
+    if not(test_result):
+        print("FAILED TEST " + str(i))
+        failed_test = True
+        break
+
+# TEST 2: IS A LIST
+
+if not(failed_test):
+    print(failed_test)
+    
+    
+    
+    
+    
+for file in allfiles:
+    #print(file)
+
+    data_array = np.genfromtxt(file, delimiter=',')
+```
+Here is the output
+```python
+runfile('/Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/ML.py', wdir='/Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05')
+['02', '04', '09', '11', '06', '07', '05', '01', '03', '08', '10', '12']
+Numbers of Test
+Has 01? True
+Has 02? True
+Has 03? True
+Has 04? True
+Has 05? True
+Has 06? True
+Has 07? True
+Has 08? True
+Has 09? True
+Has 10? True
+Has 11? True
+Has 12? True
+False
+```
 ## Challenges
 
 ### Challenge 1
@@ -94,6 +171,8 @@ Time based
 
 >![hFreq](fig/LAB05_IMAGES/hFreq.png)
 Frequency based
+
+
 
 
 
