@@ -69,7 +69,7 @@ print(allfiles)
 ```
 >Q. Manipulating File Names
 
->A. I borrowed the test code from Owen so test cases look similar. 
+>A. I borrowed the test code from Owen so test cases look similar. But I did the code alone after some very annoying single line loops
 ```Python
 import glob
 import numpy as np
