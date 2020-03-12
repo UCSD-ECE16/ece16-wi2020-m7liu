@@ -497,7 +497,52 @@ Using the Gaussian model in class take the histogram and let the program divide 
 >9 Withheld
 >![09_Hold](fig/LAB05_IMAGES/9_Hold.png)
 >
->Notice the graphs for 5 Withheld and 3 Withheld they have the prediction plots well fitted while plots like 8 and 3 are unable to be recognized even with the evidenced subtle patterns. I attempted to adjust the filter_cutoff frequency up and down from 0,2 however that does not affect the result form the trained graphs as expected. As a result the training through ML can detect clear and rythmic beats but cannot handle any data that is outside of greater irregularity. 
+>Notice the graphs for 5 Withheld and 3 Withheld they have the prediction plots well fitted while plots like 8 and 3 are unable to be recognized even with the evidenced subtle patterns. I attempted to adjust the filter_cutoff frequency up and down from 0,2 however that does not affect the result form the trained graphs as expected. As a result the training through ML can detect clear and rythmic beats but cannot handle any data that is outside of greater irregularity. However when I zoomed out the training sets makes less sense over all. At times it could not even count the obvious peaks and at times record in detail. An example is 2_Withheld
+>2_Hold_2000_to_5000
+>![2_Hold_2000_to_5000](fig/LAB05_IMAGES/2_Hold_2000_to_5000.png)
+
+>I noticed that across over several data sets, that the heart beat is not noticed unless the spike is very obvious in the overall scheme of the all of the subjects. Since the height of the peaks depend on the pressure applied at the time the data was applied. It appears as the spikes are dampened, the trained data does not recognize the lesser data sets at all. It doesn't matter which data sets are withheld the results are similar. However if I withold exceptionall bad data like 4_Withheld the zoomed out points are much more sensible. With the recorded beats per minute a lot more accurate otherwise
+>4_Hold_2000_to_5000
+>![4_Hold_2000_to_5000](fig/LAB05_IMAGES/4_Hold_2000_to_5000.png)
+
+>A definite odd thing is that I found when recording the BPM is that it doesn't do well at high heart rates. For example this one 4_Hold_2000_to_5000 has output of the following
+```
+NUMBER OF TRAIN_IDS:10
+Clip recorded Heart Rate: 60.0
+ML recorded Heart Rate: 75.0
+
+Clip recorded Heart Rate: 62.0
+ML recorded Heart Rate: 51.66666666666668
+
+Clip recorded Heart Rate: 69.0
+ML recorded Heart Rate: 60.0
+
+Clip recorded Heart Rate: 111.0
+ML recorded Heart Rate: 90.0
+
+Clip recorded Heart Rate: 62.0
+ML recorded Heart Rate: 75.0
+
+Clip recorded Heart Rate: 58.0
+ML recorded Heart Rate: 73.33333333333333
+
+Clip recorded Heart Rate: 86.0
+ML recorded Heart Rate: 68.33333333333334
+
+Clip recorded Heart Rate: 61.0
+ML recorded Heart Rate: 85.0
+
+Clip recorded Heart Rate: 89.0
+ML recorded Heart Rate: 81.66666666666667
+
+Clip recorded Heart Rate: 59.0
+ML recorded Heart Rate: 76.66666666666667
+
+Peaks Counted: 451
+```
+The result might be because of the ML unable to cover the more significant heart rates on ones with steady peaks but if there are significant peak difference then the ML would not catch the low ones at all.
+The result seriously depends on what data is held and the significant peak difference between force applied. Maybe that is why the reference heart clippers is a clip so it supplies a constant pressure.
+
 
 
 
