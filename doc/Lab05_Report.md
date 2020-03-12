@@ -458,6 +458,36 @@ Total sub_id: 10
 Total Files Opened: 100
 ALL FILES OPENED AND ACCESSED
 ```
+### Challenge 5
+Using the Gaussian model in class take the histogram and let the program divide it into two parts and train it through the threshold based from sklearn.mixture import GaussianMixture as GMM. The point is train the model to get it as close to the algorithm made from the Lab04 time domain (or just look really nice and sensible). Then from the trained data take out the actual heart rate and compare to each reference heart rate from each file and improve the algorithm based on those response.
+
+>Q. What is the difference between leave-one-out validation and leave-one-subject-out validation? Which are we doing and why is this important, and why would it be an issue if we used the other validation method given what we are building? 
+
+>A. The difference between leave-one-out validation and leave-one-subject out validation is leave-one-out takes a random data (15% of total) and do operations on the rest of them then assuming that there is no individual difference between each piece of data. Leave-one-subject out validation assumes that there is individual difference between data so that if there are data points that are especially characteristic of a subject then it would not be trained on the ML. Otherwise the ML will catch that small pattern and result it learning the wrong type of pattern recognition instead of a general model.
+
+>Note: the GMM does not seem to do well on plots that have muffled data. However if I hold out the especially outstanding data, it seems to trained really well on those plots. Just on other plots the given plot points are really muffled and perform really poorly.
+
+>0 Withheld
+>![0_Hold](fig/LAB05_IMAGES/0_Hold.png)
+>1 Withheld
+>![1_Hold](fig/LAB05_IMAGES/1_Hold.png)
+>2 Withheld
+>![2_Hold](fig/LAB05_IMAGES/2_Hold.png)
+>3 Withheld
+>![3_Hold](fig/LAB05_IMAGES/3_Hold.png)
+>4 Withheld
+>![4_Hold](fig/LAB05_IMAGES/4_Hold.png)
+>5 Withheld
+>![5_Hold](fig/LAB05_IMAGES/5_Hold.png)
+>6 Withheld
+>![6_Hold](fig/LAB05_IMAGES/6_Hold.png)
+>7 Withheld
+>![7_Hold](fig/LAB05_IMAGES/7_Hold.png)
+>8 Withheld
+>![8_Hold](fig/LAB05_IMAGES/8_Hold.png)
+>9 Withheld
+>![09_Hold](fig/LAB05_IMAGES/9_Hold.png)
+
 
 
 
