@@ -458,7 +458,7 @@ Total sub_id: 10
 Total Files Opened: 100
 ALL FILES OPENED AND ACCESSED
 ```
-### Challenge 5
+### Challenge 5 & Challenge 6
 Using the Gaussian model in class take the histogram and let the program divide it into two parts and train it through the threshold based from sklearn.mixture import GaussianMixture as GMM. The point is train the model to get it as close to the algorithm made from the Lab04 time domain (or just look really nice and sensible). Then from the trained data take out the actual heart rate and compare to each reference heart rate from each file and improve the algorithm based on those response.
 
 >Q. What is the difference between leave-one-out validation and leave-one-subject-out validation? Which are we doing and why is this important, and why would it be an issue if we used the other validation method given what we are building? 
