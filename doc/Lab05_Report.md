@@ -546,6 +546,53 @@ Peaks Counted: 451
 The result might be because of the ML unable to cover the more significant heart rates on ones with steady peaks but if there are significant peak difference then the ML would not catch the low ones at all.
 The result seriously depends on what data is held and the significant peak difference between force applied. Maybe that is why the reference heart clippers is a clip so it supplies a constant pressure.
 
+### After Submission Edit:
+After submission the program was slightly changed due to how I took data incorrectly. Now the peaks are counted regardless of how small the heart beat unless there is a super large spike in the data, the small heart beats are registered as peaks regardless. Here is the output for 4_Hold_2000_5000 after the edit.
+```
+NUMBER OF TRAIN_IDS:10
+Hold Canidate ID: 07
+Hold Canidate Num/Index: 4
+Peaks; 10
+Clip recorded Heart Rate: 62.0
+ML recorded Heart Rate: 60.0
+
+Peaks; 10
+Clip recorded Heart Rate: 64.0
+ML recorded Heart Rate: 60.0
+
+Peaks; 11
+Clip recorded Heart Rate: 67.0
+ML recorded Heart Rate: 66.0
+
+Peaks; 18
+Clip recorded Heart Rate: 66.0
+ML recorded Heart Rate: 108.0
+
+Peaks; 10
+Clip recorded Heart Rate: 73.0
+ML recorded Heart Rate: 60.0
+
+Peaks; 10
+Clip recorded Heart Rate: 65.0
+ML recorded Heart Rate: 60.0
+
+Peaks; 14
+Clip recorded Heart Rate: 65.0
+ML recorded Heart Rate: 84.0
+
+Peaks; 10
+Clip recorded Heart Rate: 75.0
+ML recorded Heart Rate: 60.0
+
+Peaks; 15
+Clip recorded Heart Rate: 71.0
+ML recorded Heart Rate: 90.0
+
+Peaks; 10
+Clip recorded Heart Rate: 66.0
+ML recorded Heart Rate: 60.0
+```
+
 
 
 
