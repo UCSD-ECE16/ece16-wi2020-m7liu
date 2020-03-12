@@ -76,6 +76,11 @@ def remove_mean_offset(s):
     s = s - mean_s
     return s
 
+def peak_to_bpm(peaks,period):
+    return peaks/60*period*0.2
+
+
+
 file_directory = "/Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data/*.csv"
 directory = "/Users/mikeliu/Desktop/ECE 16/ece16-wi2020-m7liu/src/Python/LAB05/All_Heart_Beat_Data"
 allfiles = glob.glob(file_directory)
@@ -132,7 +137,6 @@ for sub_id in unique_ids:
         i+=1
     #print("sub_id: " +sub_id + " has " + str(i) + " Files recorded")
     total_files+=i
-
 #print("Total Files Accessed: " + str(len(list_data)))
 #print("Total sub_id: " + str(k))
 #print("Total Files Opened: " + str(total_files))
@@ -147,16 +151,18 @@ i#f total_files==10*len(unique_ids):
 
 #plt.hist(list_data)
 #plt.show()
-
 train_data = np.array([])
 #make empty numpy array of size 0
 hold_out_data = np.array([])
+
 #make empty numpy array of size 0
 train_ids = unique_ids
-p=0
-q=0
+
 print("NUMBER OF TRAIN_IDS:" + str(len(train_ids)))
-hold_out_subject = float(train_ids[9])
+hold_num = 9
+print("Hold Canidate ID: " + str(train_ids[hold_num]))
+print("Hold Canidate Num/Index: " + str(hold_num))
+hold_out_subject = float(train_ids[hold_num])
 
 
 #print(type(sub_id))
@@ -167,32 +173,65 @@ for ind, sub_id in enumerate(list_sub):
     #enumerate the list_sub starting at 0. Look up enumerate function
     #print(hold_out_subject)
     if sub_id != hold_out_subject:
-        p+=1
         #sub_id is not the same as hold_out_subject
         train_data = np.concatenate((train_data, list_data[ind]))
         #print(np.shape(train_data))
         #print(np.shape(list_data[ind]))
         #concatenate numpy array train_data with the list_data at ind
     else:
-        q+=1
         hold_out_data = np.concatenate((hold_out_data, list_data[ind]))
         #concatenate numpy array hold_out_data with list_data at ind
 
 
 start_index = 0
-end_index = 100
-gmm = GMM(n_components = 2).fit(train_data.reshape(-1,1))        
+end_index = 5000
+gmm = GMM(n_components = 2).fit(train_data.reshape(-1,1))    
+
 test_pred = gmm.predict(hold_out_data.reshape(-1,1))
+test_pred = normalize(test_pred)
+test_pred = remove_mean_offset(test_pred)
 plt.plot(test_pred[start_index:end_index])
 hold_out_data = normalize(hold_out_data)
-#hold_out_data = remove_mean_offset(hold_out_data)
+hold_out_data = remove_mean_offset(hold_out_data)
 plt.plot(hold_out_data[start_index:end_index])
 plt.xlabel("Time")
 plt.ylabel("Beat T or F")
 #list_data = normalize(list_data)
 #list_data = remove_mean_offset(list_data)
-
 plt.show()
+
+
+
+peaks, _ = sig.find_peaks(test_pred[start_index:end_index], height=0)
+q = 0
+start_incr = 0
+end_incr = 0
+bpm_list = np.array([])
+num = 0
+m=0
+while m!=len(list_sub):
+    if list_sub[m]==hold_out_subject:
+
+        num+=1
+    m+=1
+for p in range(0,num):
+
+    end_incr+=500
+    bpm_peaks, _ = sig.find_peaks(test_pred[start_incr:end_incr],height=0)
+    bpm = peak_to_bpm(len(bpm_peaks), end_incr-start_incr)
+    bpm_list = np.append(bpm_list, bpm)
+    print("Clip recorded Heart Rate: " + str(list_ref[num+p]))
+    print("ML recorded Heart Rate: " + str(bpm_list[p]))
+    print("")
+    start_incr+=500
+
+
+
+    
+print("Peaks Counted: " + str(len(peaks)))
+print(np.shape(bpm_list))
+print(np.shape(bpm_list))
+print(end_incr)
 
 
 
