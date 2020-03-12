@@ -469,24 +469,35 @@ Using the Gaussian model in class take the histogram and let the program divide 
 
 >0 Withheld
 >![0_Hold](fig/LAB05_IMAGES/0_Hold.png)
+>
 >1 Withheld
 >![1_Hold](fig/LAB05_IMAGES/1_Hold.png)
+>
 >2 Withheld
 >![2_Hold](fig/LAB05_IMAGES/2_Hold.png)
+>
 >3 Withheld
 >![3_Hold](fig/LAB05_IMAGES/3_Hold.png)
+>
 >4 Withheld
 >![4_Hold](fig/LAB05_IMAGES/4_Hold.png)
+>
 >5 Withheld
 >![5_Hold](fig/LAB05_IMAGES/5_Hold.png)
+>
 >6 Withheld
 >![6_Hold](fig/LAB05_IMAGES/6_Hold.png)
+>
 >7 Withheld
 >![7_Hold](fig/LAB05_IMAGES/7_Hold.png)
+>
 >8 Withheld
 >![8_Hold](fig/LAB05_IMAGES/8_Hold.png)
+>
 >9 Withheld
 >![09_Hold](fig/LAB05_IMAGES/9_Hold.png)
+>
+>Notice the graphs for 5 Withheld and 3 Withheld they have the prediction plots well fitted while plots like 8 and 3 are unable to be recognized even with the evidenced subtle patterns. I attempted to adjust the filter_cutoff frequency up and down from 0,2 however that does not affect the result form the trained graphs as expected. As a result the training through ML can detect clear and rythmic beats but cannot handle any data that is outside of greater irregularity. 
 
 
 
