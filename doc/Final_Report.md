@@ -5,17 +5,18 @@ Date: 03/19/2020
 ## Potential Failure Points
 ### Taps
 > Since we have the accelerometer flat on the table we only need to worry about the accelerometer responding to the z dimension. As a result it is unresponsive when the tap is occuring at a different orientation. For example if the accelerometer is held vertically and the tap is going into the accelerometer (like going into the wall) since the direction of acceleration change is going in the y or x direction without a significant change in z. There will be no response from the current algorithm that builds detection off of thresholding on z,x,or y. And each time the orientation of the accelerometer changes, the resting value for each x,y,or z also changes which does not fit the model of thresholding.
+>
 >![flat_on_table](fig/FINAL_IMAGES/flat_on_table.png)
 > This is when it is flat on the table. So note the different values for each change in orientation.
-
+>
 >![upside_donw](fig/FINAL_IMAGES/upside_down.png)
 >Upside down
-
+>
 >![x_y_front_tilt](fig/FINAL_IMAGES/x_y_front_tilt.png)
 >I tilted the accelerometer forward and result in a change in overall value of x and y. Note that the same thing happens with side tilts
 >![x_y_side_tilt](fig/FINAL_IMAGES/x_y_side_tilt.png)
 >X Y side tilt. So if there are taps the difference in threshold would be different for each value.
-
+>
 > If we attempt to detect taps while moving the accelerometer would respond to the x and y axis along with a change in z (just by the nature of walking). When we walk we step out and step back in that results in a change in our z each time taking a step (just watch as a person walks their head will bob slightly) which collects data that is not in spikes of the graph but when x,y,z exceed a "certain" threshold. Let's not account for the swinging motion of the arm if the accelerometer is worn like a watch that results a even more drastic three dimensional movement.
 
 > The threshold algorithm we imposed (without graphical analysis) is extremely prone to see multiple taps, even there was only one, when the change of z lasts for too long. So one tap could become two or three. This was a common error when I was testing the buzzer tap challenge in Lab02. The solution offered at the time was to minimize the detection z threshold. However the method was extremely fickle since people tap at different strenghts and their way of tapping is different each time as well. The model then becomes extremely suited for one person but not applicable for other people.
@@ -57,8 +58,11 @@ The objective is to detect the taps off the accelerometer accurately when it is 
 
 >My solution is combining the data sets of all dimensions into one coherent set which requires some elementary algebraic magic. Really I just took the square of each dimension, took the sum of them, and the square root. Which resulted in a graph that looks much nicer and conveys the same information.
 >
->![combine_2_taps](fig/FINAL_IMAGES/combine_2_taps.png)
-
+>![combine_3_taps](fig/FINAL_IMAGES/combine_3_taps.png)
+>There were three taps here
+>
+>![combine_no_taps](fig/FINAL_IMAGES/combine_no_taps.png)
+>
 ```python
 def take_sqrt(s):
     i=0
@@ -100,6 +104,18 @@ pro = HR.process(cuml,5)
 >
 >two tap
 >
+
+>After those solutions didn't work I took the older route and that started with detrending the data set so the noise and other randomness could be taken out for an easier time to analyze.
+>
+>![process_01](fig/FINAL_IMAGES/process_01.png)
+>
+>![process_02](fig/FINAL_IMAGES/process_02.png)
+>
+>![process_03](fig/FINAL_IMAGES/process_03.png)
+>
+
+
+
 
 
 
