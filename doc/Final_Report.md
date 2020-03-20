@@ -88,15 +88,15 @@ pro = HR.process(cuml,5)
 >However looking at the ML code we had before. I wondered if I can use machine learning for learning to find the taps but the result was rather diastrous. I collected a bunch of data and ran it through the gauntlet but the problem was that when I used the testing set, it would only find the large taps but could do nothing about smaller taps that were not as obvious. This might be due to the way I detrended the data which favored strong taps strongly (not a pun) and is rather insensitive to smaller taps.
 >The next step to my potential solution was using Pxx,Freqs psd from heart beat sensor and now looking back. I don't even know why I attempted that. Tapping is not a regular pace like heart beat. But here is some nonsense graphs I got as output
 >
->![Pxx_Freqs_no_taps](fig/FINAL_IMAGES/Pxx_Freqs_no_taps.png)
+>![Pxx_Freq_no_taps](fig/FINAL_IMAGES/Pxx_Freq_no_taps.png)
 >
 >no tap
 >
->![Pxx_Freqs_01](fig/FINAL_IMAGES/Pxx_Freqs_01.png)
+>![Pxx_Freq_01](fig/FINAL_IMAGES/Pxx_Freq_01.png)
 >
 >one tap
 >
->![Pxx_Freqs_02](fig/FINAL_IMAGES/Pxx_Freqs_02.png)
+>![Pxx_Freq_02](fig/FINAL_IMAGES/Pxx_Freq_02.png)
 >
 >two tap
 >
