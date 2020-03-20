@@ -50,10 +50,39 @@ The objective is to detect the taps off the accelerometer accurately when it is 
 >![x_y_z_no_taps](fig/FINAL_IMAGES/x_y_z_no_taps.png)
 >However trying to define the taps with three seperate lines (three directions) is rather difficult (really it's because I'm lazy) to calculate an accurate occurance of tapping because it tends to look like this
 >![x_y_z_2_taps](fig/FINAL_IMAGES/x_y_z_2_taps.png)
+>
 >There were two taps in this situation
 
 >My solution is combining the data sets of all dimensions into one coherent set which requires some elementary algebraic magic. Really I just took the square of each dimension, took the sum of them, and the square root. Which resulted in a graph that looks much nicer and conveys the same information.
+>
 >![combine_2_taps](fig/FINAL_IMAGES/combine_2_taps.png)
+
+```python
+def take_sqrt(s):
+    i=0
+    while i < np.size(s):
+        s[i] = math.sqrt(s[i])
+        i+=1
+    return s
+def take_square(s):
+    i=0
+    while i<np.size(s):
+        s[i] = s[i]*s[i]
+        i+=1
+    return s
+
+def process(s, n_avg):
+    s = HR.signal_diff(s)
+    s = HR.normalize_signal(s)
+    s = HR.detrend(s, n_avg)
+    return s
+    
+cuml = np.array(data_array[:,1]*data_array[:,1]+data_array[:,2]*data_array[:,2]+data_array[:,3]*data_array[:,3])
+
+square = np.array(HR.take_square(cuml))
+
+pro = HR.process(cuml,5)
+```
 
 
 
