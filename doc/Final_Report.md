@@ -63,6 +63,31 @@ The objective is to detect the taps off the accelerometer accurately when it is 
 >
 >![combine_no_taps](fig/FINAL_IMAGES/combine_no_taps.png)
 >
+
+>However looking at the ML code we had before. I wondered if I can use machine learning for learning to find the taps but the result was rather diastrous. I collected a bunch of data and ran it through the gauntlet but the problem was that when I used the testing set, it would only find the large taps but could do nothing about smaller taps that were not as obvious. This might be due to the way I detrended the data which favored strong taps strongly (not a pun) and is rather insensitive to smaller taps.
+>The next step to my potential solution was using Pxx,Freqs psd from heart beat sensor and now looking back. I don't even know why I attempted that. Tapping is not a regular pace like heart beat. But here is some nonsense graphs I got as output
+>
+>![Pxx_Freq_no_taps](fig/FINAL_IMAGES/Pxx_Freq_no_taps.png)
+>
+>no tap
+>
+>![Pxx_Freq_01](fig/FINAL_IMAGES/Pxx_Freq_01.png)
+>
+>one tap
+>
+>![Pxx_Freq_02](fig/FINAL_IMAGES/Pxx_Freq_02.png)
+>
+>two tap
+>
+
+>After those solutions didn't work I took the older route and that started with detrending the data set so the noise and other randomness could be taken out for an analysis.
+>
+>![process_01](fig/FINAL_IMAGES/process_01.png)
+>
+>![process_02](fig/FINAL_IMAGES/process_02.png)
+>
+>![process_03](fig/FINAL_IMAGES/process_03.png)
+>
 ```python
 def take_sqrt(s):
     i=0
@@ -89,30 +114,11 @@ square = np.array(HR.take_square(cuml))
 
 pro = HR.process(cuml,5)
 ```
->However looking at the ML code we had before. I wondered if I can use machine learning for learning to find the taps but the result was rather diastrous. I collected a bunch of data and ran it through the gauntlet but the problem was that when I used the testing set, it would only find the large taps but could do nothing about smaller taps that were not as obvious. This might be due to the way I detrended the data which favored strong taps strongly (not a pun) and is rather insensitive to smaller taps.
->The next step to my potential solution was using Pxx,Freqs psd from heart beat sensor and now looking back. I don't even know why I attempted that. Tapping is not a regular pace like heart beat. But here is some nonsense graphs I got as output
+>At this point I have noticed that the taps no matter if I tap really hard or really lightly. There tends to be a lingering period of taps. That is when we are tapping the data is being taken at 50Hz (I set it) which means there is a data set coming every 0.02 seconds. So no matter how fast I tap the accelerometer there will be an extended period that my finger/hand is on the accelerometer. I'm not Kirby who can dish out punches 8 per second (I counted with approximation since one hit is 1%). 
 >
->![Pxx_Freq_no_taps](fig/FINAL_IMAGES/Pxx_Freq_no_taps.png)
->
->no tap
->
->![Pxx_Freq_01](fig/FINAL_IMAGES/Pxx_Freq_01.png)
->
->one tap
->
->![Pxx_Freq_02](fig/FINAL_IMAGES/Pxx_Freq_02.png)
->
->two tap
->
+>![heavy_tap_01](fig/FINAL_IMAGES/heavy_tap_01.png)
+>![light_tap_01](fig/FINAL_IMAGES/light_tap_01.png)
 
->After those solutions didn't work I took the older route and that started with detrending the data set so the noise and other randomness could be taken out for an easier time to analyze.
->
->![process_01](fig/FINAL_IMAGES/process_01.png)
->
->![process_02](fig/FINAL_IMAGES/process_02.png)
->
->![process_03](fig/FINAL_IMAGES/process_03.png)
->
 
 
 
