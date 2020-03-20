@@ -42,4 +42,12 @@ Date: 03/19/2020
 >![Walking_around](fig/FINAL_IMAGES/Walking_around.png)
 >Walking around
 
+## Challenge
+### Detect Taps with Different Orientations
+The objective is to detect the taps off the accelerometer accurately when it is not just held flat on the table (on wall, upside down, anything really). If this issue is solved then it doesn't matter how the accelerometer is held, it could still detect taps even if it is moved in to a different orientation. This is also a step to improve the algorithm so it can handle movement of when the person wears the accelerometer and taps it.
+
+>So the objective is to combine the directions X, Y, and Z into an algorithm that would handle the situations that when the accelerometer is held stead at any angle and orientation would still find and detect that the taps have happened. However since X,Y,Z are independent variables in a space, resulting in three seperate lines on a graph.
+>![x_y_z_no_taps](fig/FINAL_IMAGES/x_y_z_no_taps.png)
+
+
 
