@@ -48,6 +48,12 @@ The objective is to detect the taps off the accelerometer accurately when it is 
 
 >So the objective is to combine the directions X, Y, and Z into an algorithm that would handle the situations that when the accelerometer is held stead at any angle and orientation would still find and detect that the taps have happened. However since X,Y,Z are independent variables in a space, resulting in three seperate lines on a graph.
 >![x_y_z_no_taps](fig/FINAL_IMAGES/x_y_z_no_taps.png)
+>However trying to define the taps with three seperate lines (three directions) is rather difficult (really it's because I'm lazy) to calculate an accurate occurance of tapping because it tends to look like this
+>![x_y_z_2_taps](fig/FINAL_IMAGES/x_y_z_2_taps.png)
+>There were two taps in this situation
+
+>My solution is combining the data sets of all dimensions into one coherent set which requires some elementary algebraic magic. Really I just took the square of each dimension, took the sum of them, and the square root. Which resulted in a graph that looks much nicer and conveys the same information.
+>![combine_2_taps](fig/FINAL_IMAGES/combine_2_taps.png)
 
 
 
