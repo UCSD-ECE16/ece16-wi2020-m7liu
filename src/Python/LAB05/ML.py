@@ -183,7 +183,6 @@ for ind, sub_id in enumerate(list_sub):
         #print(np.shape(list_data[ind]))
         #concatenate numpy array train_data with the list_data at ind
     else:
-        print(len(hold_out_data))
         if len(hold_out_data) == 0:
             hold_out_data = np.append(hold_out_data, list_data[ind])
         else:
