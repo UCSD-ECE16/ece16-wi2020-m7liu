@@ -47,8 +47,10 @@ Date: 03/19/2020
 The objective is to detect the taps off the accelerometer accurately when it is not just held flat on the table (on wall, upside down, anything really). If this issue is solved then it doesn't matter how the accelerometer is held, it could still detect taps even if it is moved in to a different orientation. This is also a step to improve the algorithm so it can handle movement of when the person wears the accelerometer and taps it.
 
 >So the objective is to combine the directions X, Y, and Z into an algorithm that would handle the situations that when the accelerometer is held stead at any angle and orientation would still find and detect that the taps have happened. However since X,Y,Z are independent variables in a space, resulting in three seperate lines on a graph.
+>
 >![x_y_z_no_taps](fig/FINAL_IMAGES/x_y_z_no_taps.png)
 >However trying to define the taps with three seperate lines (three directions) is rather difficult (really it's because I'm lazy) to calculate an accurate occurance of tapping because it tends to look like this
+>
 >![x_y_z_2_taps](fig/FINAL_IMAGES/x_y_z_2_taps.png)
 >
 >There were two taps in this situation
@@ -83,6 +85,26 @@ square = np.array(HR.take_square(cuml))
 
 pro = HR.process(cuml,5)
 ```
+>However looking at the ML code we had before. I wondered if I can use machine learning for learning to find the taps but the result was rather diastrous. I collected a bunch of data and ran it through the gauntlet but the problem was that when I used the testing set, it would only find the large taps but could do nothing about smaller taps that were not as obvious. This might be due to the way I detrended the data which favored strong taps strongly (not a pun) and is rather insensitive to smaller taps.
+>The next step to my potential solution was using Pxx,Freqs psd from heart beat sensor and now looking back. I don't even know why I attempted that. Tapping is not a regular pace like heart beat. But here is some nonsense graphs I got as output
+>
+>![Pxx_Freqs_no_taps](fig/FINAL_IMAGES/Pxx_Freqs_no_taps.png)
+>
+>no tap
+>
+>![Pxx_Freqs_01](fig/FINAL_IMAGES/Pxx_Freqs_01.png)
+>
+>one tap
+>
+>![Pxx_Freqs_02](fig/FINAL_IMAGES/Pxx_Freqs_02.png)
+>
+>two tap
+>
+
+
+
+
+
 
 
 
