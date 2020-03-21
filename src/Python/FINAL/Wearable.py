@@ -17,15 +17,47 @@ class Wearable:
     def collect_data(self, num_samples):
         self.connection.end_streaming()
         self.connection.start_streaming()
+        data_stream = np.array([])
+        stream_size = 0
+        j = 0
         while self.connection.data.get_num_samples() < num_samples:
-            
             try:
                 self.connection.receive_data()
+                #stream_size=self.connection.data.get_num_samples()-stream_size
+
+                
+                if len(self.connection.data.data_array)>50 and stream_size-self.connection.data.get_num_samples()!=0:
+                    data_stream = HR.clean_tap(self.connection.data.data_array,5)
+                    i=0
+                    peak_period = 20
+                    temp_data_stream = np.array([])
+                    graph_max = max(data_stream)
+                    while i < np.size(data_stream):
+                        temp_data_stream=data_stream[i:i+peak_period]
+                        some_peaks, _ = sig.find_peaks(temp_data_stream, height=0.22*graph_max)
+                        
+                        plt.plot(some_peaks+i, data_stream[some_peaks+i], "x")
+                        i+=peak_period
+                    if np.size(some_peaks)>0:
+                        print(j)
+                        j+=1
+                        some_peaks=np.array([])
+                        
+                if len(self.connection.data.data_array)>5: 
+                    data_stream=HR.clean_tap(self.connection.data.data_array,5)
+                
+                    
+                        
+                if self.connection.data.get_num_samples() > 0:
+                    stream_size = self.connection.data.get_num_samples()
+                    
             except(KeyboardInterrupt):
                 self.connection.end_streaming()
                 self.connection.close_connection()
                 print("Exiting program due to KeyboardInterrupt")
                 break
+        plt.plot(data_stream)
+        plt.show
         self.connection.end_streaming()
     
     def main(self):
@@ -41,22 +73,22 @@ class Wearable:
         #cuml = np.array(data_array[:,1]*data_array[:,1]+data_array[:,2]*data_array[:,1]+data_array[:,3]*data_array[:,1])
 
         #cuml = np.array(data_array[:,1]*data_array[:,1]+data_array[:,2]*data_array[:,2]+data_array[:,3]*data_array[:,3])
-        x_square = np.array(HR.take_square(data_array[:,1]))
-        y_square = np.array(HR.take_square(data_array[:,2]))
-        z_square = np.array(HR.take_square(data_array[:,3]))
-        cuml = np.array(x_square+y_square+z_square)
-        sqrt = np.array(HR.take_sqrt(cuml))
-        pro = HR.process(sqrt,5)
+        #x_square = np.array(HR.take_square(data_array[:,1]))
+        #y_square = np.array(HR.take_square(data_array[:,2]))
+        #z_square = np.array(HR.take_square(data_array[:,3]))
+        #cuml = np.array(x_square+y_square+z_square)
+        #sqrt = np.array(HR.take_sqrt(cuml))
+        #pro = HR.process(sqrt,5)
         #plt.plot(time, cuml)
-        
+        pro = HR.clean_tap(data_array, 5)
         graph_max = max(pro)
         
         big_peaks, _ = sig.find_peaks(pro, height=0.22*graph_max)
         small_peaks, _ = sig.find_peaks(pro, height = 0)
         results = sig.peak_widths(pro, big_peaks)
         pos_sum = sum(results[0])
-        print(big_peaks)
-        print(np.size(time))
+        #print(big_peaks)
+        #print(np.size(time))
         plt.clf()
         plt.plot(pro)
         #plt.plot(big_peaks, pro[big_peaks], "o")
@@ -88,7 +120,7 @@ class Wearable:
             some_peaks, _ = sig.find_peaks(temp_pro, height=graph_max*0.22)
             all_peaks = np.append(all_peaks, some_peaks+i)
             plt.plot(some_peaks+i, pro[some_peaks+i], "x")
-            print(some_peaks)
+            #print(some_peaks)
             if np.size(some_peaks) > 0:
                 print("tap")
             i+=peak_period

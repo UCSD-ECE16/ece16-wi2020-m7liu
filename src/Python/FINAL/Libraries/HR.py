@@ -56,13 +56,16 @@ class HR:
     
     def process(s, n_avg):
         s = HR.signal_diff(s)
-        s = HR.normalize_signal(s)
+        #s = HR.normalize_signal(s)
         s = HR.detrend(s, n_avg)
         return s
     
     def clean_tap(s, n_avg): #pass in data_array
         time = (s[:,0] - s[0,0])/1e6 #time start at 0
         cuml = np.array(s[:,1]*s[:,1]+s[:,2]*s[:,2]+s[:,3]*s[:,3])
+        sqrt = np.array(HR.take_sqrt(cuml))
+        pro = HR.process(sqrt,5)
+        return pro
         
     
     

@@ -48,17 +48,10 @@ class Connection:
         self.send_serial('start data\n')
     
     def receive_data(self):
-        #fig = plt.figure()
         c = self.ser.read(1).decode('utf-8')         # read 1 byte
-        xs=[]
-        ys=[]
-        ts=[]
-        i =0
         if( c == '\n'):
             data_string = ''.join(self.string_buffer)
-            #print(data_string)
             temp_data_array = np.fromstring(data_string,dtype=int,sep=',')
-            #ani = animation.FuncAnimation(fig, self.animate(i, ts, xs, ys, temp_data_array), fargs=(xs, ys), interval=1000)
             self.data.add_data(temp_data_array)
             self.string_buffer = []
             
