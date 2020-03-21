@@ -51,33 +51,45 @@ class Wearable:
         
         graph_max = max(pro)
         
-        peaks, _ = sig.find_peaks(pro, height=0.2*graph_max)
-        results = sig.peak_widths(pro, peaks)
+        big_peaks, _ = sig.find_peaks(pro, height=0.22*graph_max)
+        small_peaks, _ = sig.find_peaks(pro, height = 0)
+        results = sig.peak_widths(pro, big_peaks)
         pos_sum = sum(results[0])
-        print(np.size(peaks))
+        print(big_peaks)
         print(np.size(time))
         plt.clf()
         plt.plot(pro)
-        plt.plot(peaks, pro[peaks], "x")
+        #plt.plot(big_peaks, pro[big_peaks], "o")
+        #plt.plot(small_peaks, pro[small_peaks], "x")
         plt.hlines(*results[1:], color="C3")
-        plt.show()
         
-        pro = -pro
-        peaks, _ = sig.find_peaks(pro, height=0.2*graph_max)
-        results = sig.peak_widths(pro, peaks)
-        neg_sum = sum(results[0])
-        print(np.size(peaks))
-        plt.clf()
-        plt.title("Peak length period = " + str(neg_sum+pos_sum))
-        plt.plot(pro)
-        plt.plot(peaks, pro[peaks], "x")
-        plt.hlines(*results[1:], color="C3")
-        plt.show()
-        print("Peak length period = " + str(neg_sum+pos_sum))
+        #pro = -pro
+        #graph_min = max(pro)
+        
+        #peaks, _ = sig.find_peaks(pro, height=0.22*graph_min)
+        #results = sig.peak_widths(pro, peaks)
+        #neg_sum = sum(results[0])
+        #print(peaks)
+        #plt.clf()
+        #plt.title("Peak length period = " + str(neg_sum+pos_sum))
+        #plt.plot(pro)
+        #plt.plot(peaks, pro[peaks], "x")
+        #plt.hlines(*results[1:], color="C3")
+        #plt.show()
         #plt.plot(time, square)
         
-        
-       # x_line = plt.plot(time, data_array[:,1])
+        peak_period = 25
+        i=0
+        temp_pro = np.array([])
+        while i < np.size(pro):
+            temp_pro = pro[i:i+peak_period]
+            some_peaks, _ = sig.find_peaks(temp_pro, height=graph_max*0.22)
+            plt.plot(some_peaks+i, pro[some_peaks+i], "x")
+            print(some_peaks)
+            if np.size(some_peaks) > 0:
+                print("tap")
+            i+=peak_period
+        #x_line = plt.plot(time, data_array[:,1])
         #y_line = plt.plot(time, data_array[:,2])
         #z_line = plt.plot(time, data_array[:,3])
         #plt.legend(('X','Y','Z'))
