@@ -50,12 +50,14 @@ The objective is to detect the taps off the accelerometer accurately when it is 
 >So the objective is to combine the directions X, Y, and Z into an algorithm that would handle the situations that when the accelerometer is held stead at any angle and orientation would still find and detect that the taps have happened. However since X,Y,Z are independent variables in a space, resulting in three seperate lines on a graph.
 >
 >![x_y_z_no_taps](fig/FINAL_IMAGES/x_y_z_no_taps.png)
+>
 >However trying to define the taps with three seperate lines (three directions) is rather difficult (really it's because I'm lazy) to calculate an accurate occurance of tapping because it tends to look like this
 >
 >![x_y_z_2_taps](fig/FINAL_IMAGES/x_y_z_2_taps.png)
 >
 >There were two taps in this situation
-
+>Yes I am aware the original implementation was done entirely on the Arduino IDE. However the graph in Arduino is a bit confusing to read so I am transfering the graphing and implementation to Python instead.
+>
 >My solution is combining the data sets of all dimensions into one coherent set which requires some elementary algebraic magic. Really I just took the square of each dimension, took the sum of them, and the square root. Which resulted in a graph that looks much nicer and conveys the same information.
 >
 >![combine_3_taps](fig/FINAL_IMAGES/combine_3_taps.png)
@@ -118,6 +120,8 @@ pro = HR.process(cuml,5)
 >
 >![heavy_tap_01](fig/FINAL_IMAGES/heavy_tap_01.png)
 >![light_tap_01](fig/FINAL_IMAGES/light_tap_01.png)
+>
+
 
 
 
