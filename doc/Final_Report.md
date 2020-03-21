@@ -142,6 +142,8 @@ pro = HR.process(cuml,5)
 >![light_tap_01](fig/FINAL_IMAGES/light_tap_01.png)
 >
 
+>The solution was to section off the taps into smaller chunks of data sets that I can further analyze. After collecting a large number of samples I discovered the peak periods of single taps (across 3 different people) tend to be around 6 to 7 (*0.02 s). Double taps and triple taps also tend to stay around this number, so the implementation takes advantage of this to split the incoming data streams further into smaller chunks of 25 (*0.02 s). It's not exactly 6 or 7 because the algorithm needs space to react to the changing data sets, if the chunks are too small. The algorithm would not be able to find peaks as accurately (actually it tends to fail). The sampling period is 4 times larger than the actual period so the algorithm can accurately access the number of taps within a localized time period. This allows for some exceptionally large taps but doesn't drown out all of the smaller taps. If it is in the same sampling period it would drown out the smaller taps but not as easily as sampling with the entire data set.
+
 
 
 
