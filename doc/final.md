@@ -156,6 +156,11 @@ pro = HR.process(cuml,5)
 >![move_02](fig/FINAL_IMAGES/move_02.png)
 >
 >![tap_01](fig/FINAL_IMAGES/tap_01.png)
+>
+>The two sets of accelerometer data looks basically identical. If I don't normalize the signal then the the difference between tapping and moving is strongly emphasised, with tapping significantly stronger than moderate movement. However if there is violent movement, the algorithm still registers it as a tap since there is a drastic change in acclereation and the period is similar to a tapping motion.
+>![move_03](fig/FINAL_IMAGES/move_03.png)
+>
+
 
 
 
