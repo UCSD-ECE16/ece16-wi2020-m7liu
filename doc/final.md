@@ -148,6 +148,8 @@ pro = HR.process(cuml,5)
 >![chunk_data_01](fig/FINAL_IMAGES/chunk_data_01.png)
 >![chunk_data_02](fig/FINAL_IMAGES/chunk_data_02.png)
 >![chunk_data_03](fig/FINAL_IMAGES/chunk_data_03.png)
+>
+>So really what is left at this time is to make the code right now work when the data is being fed in. The difficulty is knowing when and where to actually start sampling the data so things don't look completely messed up when it is ran through the algorithm. Because right now all the detrending and signal_difference is done after the data collection is done. Analyzing the data while it is coming in is more difficult because there is no longer a large set of data that can approximate the baseline. The possible solution that I implemented is to delay the actual data collection. Meaning the device artifically creates a baseline intially by taking in as much data as possible in the beginning before the user is allowed to start tapping.
 
 
 
