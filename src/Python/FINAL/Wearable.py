@@ -29,7 +29,7 @@ class Wearable:
         self.connection.end_streaming()
     
     def main(self):
-        self.collect_data(10)
+        self.collect_data(200)
         plt.show()
         self.connection.close_connection()
         collected_data = self.connection.data
@@ -40,22 +40,41 @@ class Wearable:
         time = (data_array[:,0] - data_array[0,0])/1e6 #have time start at 0 and in seconds
         #cuml = np.array(data_array[:,1]*data_array[:,1]+data_array[:,2]*data_array[:,1]+data_array[:,3]*data_array[:,1])
 
-        cuml = np.array(data_array[:,1]*data_array[:,1]+data_array[:,2]*data_array[:,2]+data_array[:,3]*data_array[:,3])
-        square = np.array(HR.take_square(cuml))
-        pro = HR.process(square,5)
+        #cuml = np.array(data_array[:,1]*data_array[:,1]+data_array[:,2]*data_array[:,2]+data_array[:,3]*data_array[:,3])
+        x_square = np.array(HR.take_square(data_array[:,1]))
+        y_square = np.array(HR.take_square(data_array[:,2]))
+        z_square = np.array(HR.take_square(data_array[:,3]))
+        cuml = np.array(x_square+y_square+z_square)
+        sqrt = np.array(HR.take_sqrt(cuml))
+        pro = HR.process(sqrt,5)
         #plt.plot(time, cuml)
-        plt.show()
-        pro = -pro
-        peaks, _ = sig.find_peaks(pro, height=0.15)
+        
+        graph_max = max(pro)
+        
+        peaks, _ = sig.find_peaks(pro, height=0.2*graph_max)
+        results = sig.peak_widths(pro, peaks)
+        pos_sum = sum(results[0])
         print(np.size(peaks))
         print(np.size(time))
-        cuml = HR.take_sqrt(cuml)
         plt.clf()
-        #plt.plot(pro)
-       # plt.plot(peaks, pro[peaks], "x")
+        plt.plot(pro)
+        plt.plot(peaks, pro[peaks], "x")
+        plt.hlines(*results[1:], color="C3")
         plt.show()
+        
+        pro = -pro
+        peaks, _ = sig.find_peaks(pro, height=0.2*graph_max)
+        results = sig.peak_widths(pro, peaks)
+        neg_sum = sum(results[0])
+        print(np.size(peaks))
+        plt.clf()
+        plt.title("Peak length period = " + str(neg_sum+pos_sum))
+        plt.plot(pro)
+        plt.plot(peaks, pro[peaks], "x")
+        plt.hlines(*results[1:], color="C3")
+        plt.show()
+        print("Peak length period = " + str(neg_sum+pos_sum))
         #plt.plot(time, square)
-        plt.show()
         
         
        # x_line = plt.plot(time, data_array[:,1])

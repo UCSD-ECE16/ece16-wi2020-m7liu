@@ -12,8 +12,8 @@ from Libraries.Data import Data
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-fig = plt.figure()
-ax = fig.add_subplot(1, 1, 1)
+#fig = plt.figure()
+#ax = fig.add_subplot(1, 1, 1)
 class Connection:
 
     def __init__(self, serial_name, baud_rate):
@@ -63,11 +63,8 @@ class Connection:
         if( c == '\n'):
             data_string = ''.join(self.string_buffer)
             #print(data_string)
-            
-
             temp_data_array = np.fromstring(data_string,dtype=int,sep=',')
-            ani = animation.FuncAnimation(fig, self.animate(i, ts, xs, ys, temp_data_array), fargs=(xs, ys), interval=1000)
-            plt.show()
+            #ani = animation.FuncAnimation(fig, self.animate(i, ts, xs, ys, temp_data_array), fargs=(xs, ys), interval=1000)
             self.data.add_data(temp_data_array)
             self.string_buffer = []
             
