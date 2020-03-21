@@ -45,7 +45,7 @@ Date: 03/19/2020
 
 ## Challenge
 ### Detect Taps with Different Orientations
-The objective is to detect the taps off the accelerometer accurately when it is not just held flat on the table (on wall, upside down, anything really). If this issue is solved then it doesn't matter how the accelerometer is held, it could still detect taps even if it is moved in to a different orientation. This is also a step to improve the algorithm so it can handle movement of when the person wears the accelerometer and taps it.
+The objective is to detect the taps off the accelerometer accurately when it is not just held flat on the table (on wall, upside down, anything really). If this issue is solved then it doesn't matter how the accelerometer is held, it could still detect taps even if it is moved into a different orientation during data collection. This is also a step to improve the algorithm so it can handle movement of when the person wears the accelerometer and taps it.
 
 >So the objective is to combine the directions X, Y, and Z into an algorithm that would handle the situations that when the accelerometer is held stead at any angle and orientation would still find and detect that the taps have happened. However since X,Y,Z are independent variables in a space, resulting in three seperate lines on a graph.
 >
@@ -57,6 +57,14 @@ The objective is to detect the taps off the accelerometer accurately when it is 
 >
 >There were two taps in this situation
 >Yes I am aware the original implementation was done entirely on the Arduino IDE. However the graph in Arduino is a bit confusing to read so I am transfering the graphing and implementation to Python instead.
+>
+>If I tapped the original implementation when I am holding at an angle, in this case how smartphones are normally held, the graph demonstrates changes in X,Y, and Z. 
+>
+>![angled_orientation_01](fig/FINAL_IMAGES/angled_orientation_01.png)
+>
+>In the original implementation the taps would be registered around mainly Z and some of the X and Y axis we tap into the accelerometer (like when the chip is a piece of paper and you tap into it). However if the tap occurs while the orientation of the accelerometer is changed then a tap is registered since the original algorithm works off of a baseline + and - threshold which always exceeds it when you move the accelerometer around.
+>
+>![moving_accelerometer](fig/FINAL_IMAGES/moving_accelerometer.png)
 >
 >My solution is combining the data sets of all dimensions into one coherent set which requires some elementary algebraic magic. Really I just took the square of each dimension, took the sum of them, and the square root. Which resulted in a graph that looks much nicer and conveys the same information.
 >
