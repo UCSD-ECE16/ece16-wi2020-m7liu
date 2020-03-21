@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jan  8 17:14:57 2020
-
-@author: edwardwang
-"""
 
 from Libraries.Connection import Connection
 from Libraries.Visualize import Visualize
@@ -36,7 +29,8 @@ class Wearable:
         self.connection.end_streaming()
     
     def main(self):
-        self.collect_data(200)
+        self.collect_data(10)
+        plt.show()
         self.connection.close_connection()
         collected_data = self.connection.data
         fs = int(collected_data.calc_sampling_rate()) #round to nearest int
@@ -48,25 +42,26 @@ class Wearable:
 
         cuml = np.array(data_array[:,1]*data_array[:,1]+data_array[:,2]*data_array[:,2]+data_array[:,3]*data_array[:,3])
         square = np.array(HR.take_square(cuml))
-        pro = HR.process(cuml,5)
-        Pxx, Freqs = plt.psd(pro, NFFT=len(pro), Fs=fs)
-        #plt.plot(pro)
+        pro = HR.process(square,5)
+        #plt.plot(time, cuml)
         plt.show()
         pro = -pro
-        peaks, _ = sig.find_peaks(Pxx, height=0.15)
+        peaks, _ = sig.find_peaks(pro, height=0.15)
         print(np.size(peaks))
         print(np.size(time))
         cuml = HR.take_sqrt(cuml)
         plt.clf()
-        plt.plot(pro)
-        plt.plot(peaks, pro[peaks], "x")
+        #plt.plot(pro)
+       # plt.plot(peaks, pro[peaks], "x")
         plt.show()
         #plt.plot(time, square)
         plt.show()
         
-        x_line = plt.plot(time, data_array[:,1])
-        y_line = plt.plot(time, data_array[:,2])
-        z_line = plt.plot(time, data_array[:,3])
+        
+       # x_line = plt.plot(time, data_array[:,1])
+        #y_line = plt.plot(time, data_array[:,2])
+        #z_line = plt.plot(time, data_array[:,3])
+        #plt.legend(('X','Y','Z'))
         #plt.plot(time, HR.normalize_signal(HR.detrend(-data_array[:,4],fs)))
         #plt.plot(time, s_thresh_up)
         plt.show()

@@ -9,7 +9,11 @@ Created on Wed Jan  8 17:15:27 2020
 import serial
 import numpy as np
 from Libraries.Data import Data
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
 class Connection:
 
     def __init__(self, serial_name, baud_rate):
@@ -38,19 +42,35 @@ class Connection:
                 self.close_connection()
                 print("Exiting program due to KeyboardInterrupt")
                 break
-    
+    def animate(self, i, ts, xs, ys, temp_array):
+        print(temp_array)
+        ts.append(ts,temp_array[0])
+        xs.append(xs,temp_array[1])
+        ax.clear()
+        plt.plot(ts,xs)
+        
+        
     def start_streaming(self):
         self.send_serial('start data\n')
     
     def receive_data(self):
+        #fig = plt.figure()
         c = self.ser.read(1).decode('utf-8')         # read 1 byte
-        
+        xs=[]
+        ys=[]
+        ts=[]
+        i =0
         if( c == '\n'):
             data_string = ''.join(self.string_buffer)
-            print(data_string)
+            #print(data_string)
+            
+
             temp_data_array = np.fromstring(data_string,dtype=int,sep=',')
+            ani = animation.FuncAnimation(fig, self.animate(i, ts, xs, ys, temp_data_array), fargs=(xs, ys), interval=1000)
+            plt.show()
             self.data.add_data(temp_data_array)
             self.string_buffer = []
+            
         else:
            self.string_buffer.append(c)
     
