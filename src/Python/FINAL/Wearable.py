@@ -81,14 +81,19 @@ class Wearable:
         peak_period = 20
         i=0
         temp_pro = np.array([])
+        neg_pro = -pro
+        all_peaks = np.array([])
         while i < np.size(pro):
             temp_pro = pro[i:i+peak_period]
             some_peaks, _ = sig.find_peaks(temp_pro, height=graph_max*0.22)
+            all_peaks = np.append(all_peaks, some_peaks+i)
             plt.plot(some_peaks+i, pro[some_peaks+i], "x")
             print(some_peaks)
             if np.size(some_peaks) > 0:
                 print("tap")
             i+=peak_period
+            
+        print(all_peaks)
         #x_line = plt.plot(time, data_array[:,1])
         #y_line = plt.plot(time, data_array[:,2])
         #z_line = plt.plot(time, data_array[:,3])
