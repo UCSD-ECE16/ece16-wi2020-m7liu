@@ -42,13 +42,7 @@ class Connection:
                 self.close_connection()
                 print("Exiting program due to KeyboardInterrupt")
                 break
-    def animate(self, i, ts, xs, ys, temp_array):
-        print(temp_array)
-        ts.append(ts,temp_array[0])
-        xs.append(xs,temp_array[1])
-        ax.clear()
-        plt.plot(ts,xs)
-        
+
         
     def start_streaming(self):
         self.send_serial('start data\n')

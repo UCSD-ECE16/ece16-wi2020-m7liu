@@ -78,7 +78,7 @@ class Wearable:
         #plt.show()
         #plt.plot(time, square)
         
-        peak_period = 25
+        peak_period = 20
         i=0
         temp_pro = np.array([])
         while i < np.size(pro):

@@ -59,6 +59,7 @@ class HR:
         s = HR.normalize_signal(s)
         s = HR.detrend(s, n_avg)
         return s
+    
     def clean_tap(s, n_avg): #pass in data_array
         time = (s[:,0] - s[0,0])/1e6 #time start at 0
         cuml = np.array(s[:,1]*s[:,1]+s[:,2]*s[:,2]+s[:,3]*s[:,3])
